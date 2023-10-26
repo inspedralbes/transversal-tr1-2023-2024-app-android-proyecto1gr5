@@ -16,6 +16,8 @@ public class Productes {
     public static class Producte {
         @SerializedName("id")
         private int id;
+        @SerializedName("categoria")
+        private String categoria;
         @SerializedName("nom")
         private String nom;
         @SerializedName("descripció")
@@ -27,6 +29,10 @@ public class Productes {
 
         public int getId() {
             return id;
+        }
+
+        public String getCategoria() {
+            return categoria;
         }
 
         public String getNom() {
