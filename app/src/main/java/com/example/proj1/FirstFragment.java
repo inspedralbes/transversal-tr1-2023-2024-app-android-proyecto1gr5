@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FirstFragment extends Fragment {
 
-    private static final String BASE_URL = "http://192.168.0.18:3001/getProductes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.56.1:3001/getProductes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
