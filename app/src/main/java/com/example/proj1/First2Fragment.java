@@ -20,10 +20,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import androidx.fragment.app.DialogFragment;
+
 
 public class First2Fragment extends Fragment {
 
-    private static final String BASE_URL = "http://192.168.122.188:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -127,6 +129,7 @@ public class First2Fragment extends Fragment {
             //holder.textView.setText(item); // Asignar el dato a la vista de texto
             String nom_comanda = "Comanda " + (position+1);
             holder.layout_productes.removeAllViews();
+            float total = 0;
             for (int i=0;i<item.getProductes().size();i++) {
                 LinearLayout layout_producte = new LinearLayout(rootView.getContext());
                 layout_producte.setOrientation(LinearLayout.HORIZONTAL);
@@ -135,6 +138,8 @@ public class First2Fragment extends Fragment {
                 nom_producte.setWidth(700);
                 TextView preu = new TextView(rootView.getContext());
                 preu.setText("" + item.getProductes().get(i).getPreu() + "€");
+
+                total = total + item.getProductes().get(i).getPreu();
 
                 layout_producte.addView(nom_producte);
                 layout_producte.addView(preu);
@@ -146,7 +151,21 @@ public class First2Fragment extends Fragment {
 
 
             holder.nom_comanda.setText(nom_comanda);
+            holder.total.setText("TOTAL: " + total + " €");
             holder.estat.setText("Estat: " + estat);
+
+            holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+
+                    showConfirmationFragment(view, item);
+
+
+
+                }
+            });
 
         }
 
@@ -161,6 +180,7 @@ public class First2Fragment extends Fragment {
 
             TextView nom_comanda;
             LinearLayout layout_productes;
+            TextView total;
             TextView estat;
             Button boto_editar;
             Button boto_eliminar;
@@ -171,6 +191,7 @@ public class First2Fragment extends Fragment {
                 // Inicializa las vistas aquí
                 nom_comanda = itemView.findViewById(R.id.nom_comanda);
                 layout_productes = itemView.findViewById(R.id.layout_productes);
+                total = itemView.findViewById(R.id.total);
                 estat = itemView.findViewById(R.id.estat);
                 boto_editar = itemView.findViewById(R.id.boto_editar);
                 boto_eliminar = itemView.findViewById(R.id.boto_eliminar);
@@ -178,6 +199,17 @@ public class First2Fragment extends Fragment {
             }
         }
     }
+
+    public void showConfirmationFragment(View v, Comandes.Comanda comanda) {
+        ConfirmationFragment newFragment = new ConfirmationFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("comanda", comanda);
+        newFragment.setArguments(args);
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
+        }
+    }
+
 
 
 }

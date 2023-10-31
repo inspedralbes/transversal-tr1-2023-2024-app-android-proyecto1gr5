@@ -2,6 +2,7 @@ package com.example.proj1;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Comandes {
@@ -13,7 +14,7 @@ public class Comandes {
         return comanda;
     }
 
-    public static class Comanda {
+    public static class Comanda implements Serializable {
         @SerializedName("id")
         private int id;
         @SerializedName("id_usuari")

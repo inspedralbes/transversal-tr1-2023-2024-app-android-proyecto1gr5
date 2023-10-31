@@ -48,4 +48,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="COMANDES">COMANDES</string>
+    <string name="confirmationfragment">confirmationFragment</string>
 </resources>

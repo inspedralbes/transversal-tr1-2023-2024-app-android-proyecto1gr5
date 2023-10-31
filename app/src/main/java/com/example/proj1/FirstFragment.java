@@ -41,7 +41,7 @@ public class FirstFragment extends Fragment {
         }
     }
 
-    private static final String BASE_URL_getProductes = "http://192.168.122.188:3001/getProductes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_getProductes = "http://192.168.56.1:3001/getProductes/"; //Canviar la IP cada vegada que varii
 
 
     // Inicializa Retrofit
