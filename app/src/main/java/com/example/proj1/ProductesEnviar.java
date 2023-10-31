@@ -2,16 +2,14 @@ package com.example.proj1;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Productes {
+public class ProductesEnviar  {
 
     @SerializedName("result")
-    private List<Producte> productes;
-
-    public List<Producte> getProductes() {
-        return productes;
-    }
+    private List<ProductesEnviar.Producte> productes;
 
     public static class Producte {
         @SerializedName("id")
@@ -20,12 +18,25 @@ public class Productes {
         private String categoria;
         @SerializedName("nom")
         private String nom;
-        @SerializedName("descripció")
+        @SerializedName("descripcio")
         private String descripcio;
         @SerializedName("preu")
         private float preu;
         @SerializedName("url_imatge")
         private String url_imatge;
+
+        @SerializedName("quantitat")
+        private int quantitat;
+
+        public Producte (ProductesRebre.Producte producte, int quantitat) {
+            this.id = producte.getId();
+            this.categoria = producte.getCategoria();
+            this.nom = producte.getNom();
+            this.descripcio = producte.getDescripcio();
+            this.preu = producte.getPreu();
+            this.url_imatge = producte.getUrlImatge();
+            this.quantitat = quantitat;
+        }
 
         public int getId() {
             return id;
@@ -49,6 +60,10 @@ public class Productes {
 
         public String getUrlImatge() {
             return url_imatge;
+        }
+
+        public int getQuantitat() {
+            return quantitat;
         }
     }
 }

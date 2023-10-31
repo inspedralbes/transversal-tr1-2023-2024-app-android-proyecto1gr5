@@ -14,7 +14,7 @@
         app:srcCompat="@drawable/pizza_margarita" />
 
     <TextView
-        android:id="@+id/nom_producte"
+        android:id="@+id/nom_comanda"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pizza Margarita"

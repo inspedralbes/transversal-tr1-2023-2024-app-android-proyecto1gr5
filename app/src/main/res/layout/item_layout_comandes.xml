@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/nom_comanda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Comanda 1"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/layout_productes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/nom1"
+                android:layout_width="113px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="- Pizza Margarita" />
+
+            <TextView
+                android:id="@+id/preu1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="9,99 €" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/nom2"
+                android:layout_width="113px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="- Lassanya Clàssica" />
+
+            <TextView
+                android:id="@+id/preu2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="13,99 €" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/estat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estat:" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/boto_editar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Editar" />
+
+        <Button
+            android:id="@+id/boto_eliminar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Eliminar" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/botor_pagar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pagar" />
+
+    <!-- Puedes agregar más vistas aquí según tus necesidades -->
+
+</LinearLayout>
