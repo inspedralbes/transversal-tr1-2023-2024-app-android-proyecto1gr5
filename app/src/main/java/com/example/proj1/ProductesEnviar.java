@@ -11,7 +11,7 @@ public class ProductesEnviar  {
     @SerializedName("result")
     private List<ProductesEnviar.Producte> productes;
 
-    public static class Producte {
+    public static class Producte implements Serializable {
         @SerializedName("id")
         private int id;
         @SerializedName("categoria")

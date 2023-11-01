@@ -84,7 +84,7 @@ public class QuantitatFragment extends Fragment {
 
                     ProductesEnviar.Producte producte_enviar = new ProductesEnviar.Producte(producte, unitats_seleccionades);
 
-                    String BASE_URL_updateComanda = "http://192.168.56.1:3001/updateComanda/"; //Canviar la IP cada vegada que varii
+                    String BASE_URL_updateComanda = "http://192.168.122.188:3001/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
 
                     Retrofit retrofit_updateComanda = new Retrofit.Builder()
                             .baseUrl(BASE_URL_updateComanda)
@@ -123,6 +123,8 @@ public class QuantitatFragment extends Fragment {
                 transaction.remove(QuantitatFragment.this);
                 transaction.addToBackStack(null); // Opcional, para agregar la transacción a la pila de retroceso
                 transaction.commit();
+
+
             }
 
 
@@ -149,15 +151,14 @@ public class QuantitatFragment extends Fragment {
         unitatsTextView.setText(String.valueOf(unitats_seleccionades));
     }
 
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            quantitySelectedListener = (OnQuantitySelectedListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + " must implement OnQuantitySelectedListener");
+    /*public void showDatePickerFragment(View v) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.datepicker));
         }
     }*/
+
 
 
 
