@@ -7,9 +7,11 @@
     tools:context=".MenuProductos">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.Proj1.AppBarOverlay">
+
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -20,6 +22,37 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_menu_productos" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/botonAtras"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:text="Atrás"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="NotSibling" />
+
+        <Button
+            android:id="@+id/botonPagar"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:text="Pagar"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="NotSibling" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_menu_productos"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

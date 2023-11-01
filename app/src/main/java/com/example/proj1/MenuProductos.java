@@ -1,5 +1,6 @@
 package com.example.proj1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -7,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,6 +35,23 @@ public class MenuProductos extends AppCompatActivity  {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
+        Button botonHaciaAtras = findViewById(R.id.botonAtras);
+        botonHaciaAtras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuProductos.this, MainActivity.class));
+                finish(); //Finalizo la actividad actual
+            }
+        });
+
+        Button botonParaPagar = findViewById(R.id.botonPagar);
+        botonParaPagar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MenuProductos.this,MainActivity2.class));
+                finish();
+            }
+        });
 
     }
 
