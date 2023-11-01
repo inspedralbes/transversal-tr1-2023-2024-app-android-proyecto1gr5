@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,16 +71,19 @@ public class EditarComandaFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_first, container, false);
+        rootView = inflater.inflate(R.layout.fragment_editar_comanda, container, false);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewProductes);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerviewEditar);
 
         Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
+
+        Log.d("comanda:",comanda.getProductes().get(0).getNom());
+
         MiAdaptador adaptador = new MiAdaptador(comanda.getProductes());
         recyclerView.setAdapter(adaptador);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity())); // Puedes usar otro LayoutManager según tus necesidades
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_editar_comanda, container, false);
+        return rootView;
 
 
     }
@@ -104,6 +108,8 @@ public class EditarComandaFragment extends DialogFragment {
             // Asigna los datos a las vistas en el ViewHolder
             ProductesEnviar.Producte item = data.get(position);
             //holder.textView.setText(item); // Asignar el dato a la vista de texto
+
+            Log.d("nom producte:",item.getNom());
 
             holder.nom_producte.setText(item.getNom());
             holder.categoria_producte.setText(item.getCategoria());
