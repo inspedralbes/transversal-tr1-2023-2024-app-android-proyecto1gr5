@@ -22,6 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class First2Fragment extends Fragment {
 
@@ -50,6 +53,7 @@ public class First2Fragment extends Fragment {
 
     {
 
+
         rootView = inflater.inflate(R.layout.fragment_first2, container, false);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewComandes);
@@ -65,6 +69,8 @@ public class First2Fragment extends Fragment {
 
                     comandes = response.body();
                     Log.d("comanda:","" + comandes.getComandes().get(0).getId());
+
+
 
                     MiAdaptador adaptador = new MiAdaptador(comandes);
                     recyclerView.setAdapter(adaptador);

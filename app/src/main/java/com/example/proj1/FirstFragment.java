@@ -15,6 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +44,7 @@ public class FirstFragment extends Fragment {
         }
     }
 
-    private static final String BASE_URL_getProductes = "http://192.168.56.1:3001/getProductes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_getProductes = "http://192.168.122.188:3001/getProductes/"; //Canviar la IP cada vegada que varii
 
 
     // Inicializa Retrofit
@@ -84,6 +87,19 @@ public class FirstFragment extends Fragment {
                     productes = response.body();
                     Log.d("producte:",productes.getProductes().get(0).getNom());
 
+                    List<String> llista_categories = new ArrayList<String>();
+                    for (int i=0;i<productes.getProductes().size();i++) {
+                        boolean categoria_existent = false;
+                        for (int j=0;j<llista_categories.size();j++) {
+                            if (llista_categories.get(j).equals(productes.getProductes().get(i).getCategoria())) {
+                                categoria_existent = true;
+                            }
+                        }
+                        if (!categoria_existent) {
+                            llista_categories.add(productes.getProductes().get(i).getCategoria());
+                        }
+                    }
+
                     MiAdaptador adaptador = new MiAdaptador(productes);
                     recyclerView.setAdapter(adaptador);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity())); // Puedes usar otro LayoutManager según tus necesidades
@@ -120,9 +136,11 @@ public class FirstFragment extends Fragment {
     public class MiAdaptador extends RecyclerView.Adapter<MiAdaptador.ViewHolder> {
         // Declaraciones de variables y constructor
         private ProductesRebre data; // Suponiendo que estás mostrando una lista de cadenas
+        private String categoria_referencia;
 
         public MiAdaptador(ProductesRebre data) {
             this.data = data;
+            this.categoria_referencia = data.getProductes().get(0).getCategoria();
         }
 
         @NonNull
@@ -137,11 +155,22 @@ public class FirstFragment extends Fragment {
             // Asigna los datos a las vistas en el ViewHolder
             ProductesRebre.Producte item = data.getProductes().get(position);
 
+
+                if (!this.categoria_referencia.equals(item.getCategoria()) || position == 0) {
+                    this.categoria_referencia = item.getCategoria();
+                    holder.categoria.setText(item.getCategoria());
+                }
+                else {
+                    holder.categoria.setText("");
+                }
+
+
+
+
             int img_producte = getResources().getIdentifier(item.getUrlImatge().substring(0, item.getUrlImatge().length() - 4), "drawable", getContext().getPackageName());
 
             holder.img_producte.setImageResource(img_producte);
             holder.nom_producte.setText(item.getNom());
-            holder.categoria_producte.setText(item.getCategoria());
             holder.boto_afegir_comanda.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -164,17 +193,17 @@ public class FirstFragment extends Fragment {
         public class ViewHolder extends RecyclerView.ViewHolder {
             // Declaraciones de vistas dentro del elemento
 
+            TextView categoria;
             ImageView img_producte;
             TextView nom_producte;
-            TextView categoria_producte;
             Button boto_afegir_comanda;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 // Inicializa las vistas aquí
+                categoria = itemView.findViewById(R.id.categoria);
                 img_producte = itemView.findViewById(R.id.img_producte);
                 nom_producte = itemView.findViewById(R.id.nom_comanda);
-                categoria_producte = itemView.findViewById(R.id.categoria_producte);
                 boto_afegir_comanda = itemView.findViewById(R.id.boto_modificar_quantitat);
             }
         }

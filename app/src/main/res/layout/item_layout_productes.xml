@@ -7,6 +7,13 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <TextView
+        android:id="@+id/categoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PIZZES"
+        android:textAlignment="center" />
+
     <ImageView
         android:id="@+id/img_producte"
         android:layout_width="wrap_content"
@@ -20,12 +27,6 @@
         android:text="Pizza Margarita"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/categoria_producte"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pizzes" />
 
     <Button
         android:id="@+id/boto_modificar_quantitat"
