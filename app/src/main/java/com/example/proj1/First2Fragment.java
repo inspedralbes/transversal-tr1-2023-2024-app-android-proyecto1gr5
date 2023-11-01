@@ -25,7 +25,7 @@ import androidx.fragment.app.DialogFragment;
 
 public class First2Fragment extends Fragment {
 
-    private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.122.188:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -89,16 +89,6 @@ public class First2Fragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        /*
-        Button boto_afegir_comanda = (Button) rootView.findViewById(R.id.boto_afegir_comanda);
-        boto_afegir_comanda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
-
-
     }
 
     @Override
@@ -138,8 +128,10 @@ public class First2Fragment extends Fragment {
                 nom_producte.setWidth(700);
                 TextView preu = new TextView(rootView.getContext());
                 preu.setText("" + item.getProductes().get(i).getPreu() + "€");
+                TextView quantitat = new TextView(rootView.getContext());
+                quantitat.setText("x" + item.getProductes().get(i).getQuantitat());
 
-                total = total + item.getProductes().get(i).getPreu();
+                total = total + item.getProductes().get(i).getPreu()*item.getProductes().get(i).getQuantitat();
 
                 layout_producte.addView(nom_producte);
                 layout_producte.addView(preu);
@@ -161,6 +153,20 @@ public class First2Fragment extends Fragment {
 
 
                     showConfirmationFragment(view, item);
+
+
+
+                }
+            });
+
+            holder.boto_editar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+
+                    showEditarComandaFragment(view, item);
+
 
 
 
@@ -209,6 +215,18 @@ public class First2Fragment extends Fragment {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
+
+    public void showEditarComandaFragment(View v, Comandes.Comanda comanda) {
+        EditarComandaFragment newFragment = new EditarComandaFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("comanda", comanda);
+        newFragment.setArguments(args);
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
+        }
+    }
+
+
 
 
 

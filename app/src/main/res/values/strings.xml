@@ -49,4 +49,8 @@
     </string>
     <string name="COMANDES">COMANDES</string>
     <string name="confirmationfragment">confirmationFragment</string>
+    <string name="datepicker">datePicker</string>
+    <string name="editarcomandafragment">editarComandaFragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

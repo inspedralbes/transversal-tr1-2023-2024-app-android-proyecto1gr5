@@ -33,10 +33,17 @@
 
             <TextView
                 android:id="@+id/preu1"
-                android:layout_width="wrap_content"
+                android:layout_width="113px"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="9,99 €" />
+
+            <TextView
+                android:id="@+id/quantitat1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="x1" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,10 +60,17 @@
 
             <TextView
                 android:id="@+id/preu2"
-                android:layout_width="wrap_content"
+                android:layout_width="113px"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="13,99 €" />
+
+            <TextView
+                android:id="@+id/quantitat2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="x1" />
         </LinearLayout>
 
     </LinearLayout>

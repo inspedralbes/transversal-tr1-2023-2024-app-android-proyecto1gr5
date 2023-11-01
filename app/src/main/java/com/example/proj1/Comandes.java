@@ -27,7 +27,7 @@ public class Comandes {
         private String estat;
 
         @SerializedName("productes")
-        private List<ProductesRebre.Producte> productes;
+        private List<ProductesEnviar.Producte> productes;
 
         public int getId() { return id; }
 
@@ -37,7 +37,7 @@ public class Comandes {
 
         public String getEstat() { return estat; }
 
-        public List<ProductesRebre.Producte> getProductes() { return productes; }
+        public List<ProductesEnviar.Producte> getProductes() { return productes; }
 
 
 
