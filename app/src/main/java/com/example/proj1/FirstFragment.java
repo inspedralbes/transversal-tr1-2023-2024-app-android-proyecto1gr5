@@ -15,6 +15,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,6 +86,19 @@ public class FirstFragment extends Fragment {
 
                     productes = response.body();
                     Log.d("producte:",productes.getProductes().get(0).getNom());
+
+                    List<String> llista_categories = new ArrayList<String>();
+                    for (int i=0;i<productes.getProductes().size();i++) {
+                        boolean categoria_existent = false;
+                        for (int j=0;j<llista_categories.size();j++) {
+                            if (llista_categories.get(j).equals(productes.getProductes().get(i).getCategoria())) {
+                                categoria_existent = true;
+                            }
+                        }
+                        if (!categoria_existent) {
+                            llista_categories.add(productes.getProductes().get(i).getCategoria());
+                        }
+                    }
 
                     MiAdaptador adaptador = new MiAdaptador(productes);
                     recyclerView.setAdapter(adaptador);
