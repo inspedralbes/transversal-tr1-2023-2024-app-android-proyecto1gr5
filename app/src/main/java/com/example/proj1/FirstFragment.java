@@ -107,7 +107,7 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button boto_afegir_comanda = (Button) rootView.findViewById(R.id.boto_afegir_comanda);
+        Button boto_afegir_comanda = (Button) rootView.findViewById(R.id.boto_modificar_quantitat);
 
     }
 
@@ -136,10 +136,9 @@ public class FirstFragment extends Fragment {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             // Asigna los datos a las vistas en el ViewHolder
             ProductesRebre.Producte item = data.getProductes().get(position);
-            //holder.textView.setText(item); // Asignar el dato a la vista de texto
+
             int img_producte = getResources().getIdentifier(item.getUrlImatge().substring(0, item.getUrlImatge().length() - 4), "drawable", getContext().getPackageName());
-            int nom_producte = getResources().getIdentifier(item.getNom(), "drawable", getContext().getPackageName());
-            int categoria_producte = getResources().getIdentifier(item.getCategoria(), "drawable", getContext().getPackageName());
+
             holder.img_producte.setImageResource(img_producte);
             holder.nom_producte.setText(item.getNom());
             holder.categoria_producte.setText(item.getCategoria());
@@ -176,7 +175,7 @@ public class FirstFragment extends Fragment {
                 img_producte = itemView.findViewById(R.id.img_producte);
                 nom_producte = itemView.findViewById(R.id.nom_comanda);
                 categoria_producte = itemView.findViewById(R.id.categoria_producte);
-                boto_afegir_comanda = itemView.findViewById(R.id.boto_afegir_comanda);
+                boto_afegir_comanda = itemView.findViewById(R.id.boto_modificar_quantitat);
             }
         }
 
