@@ -134,6 +134,7 @@ public class First2Fragment extends Fragment {
                 nom_producte.setWidth(700);
                 TextView preu = new TextView(rootView.getContext());
                 preu.setText("" + item.getProductes().get(i).getPreu() + "€");
+                preu.setWidth(250);
                 TextView quantitat = new TextView(rootView.getContext());
                 quantitat.setText("x" + item.getProductes().get(i).getQuantitat());
 
@@ -141,6 +142,7 @@ public class First2Fragment extends Fragment {
 
                 layout_producte.addView(nom_producte);
                 layout_producte.addView(preu);
+                layout_producte.addView(quantitat);
 
                 holder.layout_productes.addView(layout_producte);
             }
