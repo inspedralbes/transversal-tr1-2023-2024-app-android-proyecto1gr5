@@ -61,7 +61,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.56.1:3001");
+            mSocket = IO.socket("http://192.168.122.188:3001");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +70,9 @@ public class First2Fragment extends Fragment {
         if (mSocket.connected()) {
             Toast.makeText(rootView.getContext(), "Socket Connected!!", Toast.LENGTH_SHORT).show();
         }
-
+        else {
+            Log.d("prueba", "error onFailure ");
+        }
 
 
 
@@ -183,7 +185,10 @@ public class First2Fragment extends Fragment {
                     Log.d("msg:",data);
 
                     //TextView missatge = new TextView(MainActivity2.this);
-                    holder.estat.setText(data);
+                    if (data.substring(8).equals(""+item.getId())) {
+                        holder.estat.setText(data);
+                    }
+
 
                 /*runOnUiThread(new Runnable(){
                     @Override
