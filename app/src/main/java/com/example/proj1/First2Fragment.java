@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,14 +26,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.fragment.app.DialogFragment;
 
-import java.net.Socket;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class First2Fragment extends Fragment {
 
-    Socket mSocket;
+
 
     private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
@@ -55,6 +59,8 @@ public class First2Fragment extends Fragment {
     )
 
     {
+
+
 
 
         rootView = inflater.inflate(R.layout.fragment_first2, container, false);
