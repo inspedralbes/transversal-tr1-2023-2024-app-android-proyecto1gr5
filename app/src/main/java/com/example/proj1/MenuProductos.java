@@ -61,21 +61,24 @@ public class MenuProductos extends AppCompatActivity  {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id= item.getItemId();
 
-        if(id == R.id.item1){
+        //Opcion para mostrar datos del usuario
+        if(id == R.id.item1) {
            //Intent intent = new Intent(MenuProductos.this, Dades.class);
            // startActivity(intent);
+
+        //Opcion para ir al Menu de Productos
         }else if(id == R.id.item2){
             Intent intent = new Intent(MenuProductos.this,MenuProductos.class);
             startActivity(intent);
+
+        //Opcion para ir al Menu de Comandes
         }else if(id == R.id.item3){
             Intent intent= new Intent(MenuProductos.this, MainActivity2.class);
             startActivity(intent);
-        } else if (id == R.id.item4){
+        } //Opcion para salir de la aplicacion
+        else if (id == R.id.item4){
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
-            startActivity(intent);
-        } else if (id == R.id.item5) {
-            Intent intent = new Intent(MenuProductos.this, MainActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
