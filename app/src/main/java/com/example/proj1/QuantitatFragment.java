@@ -20,7 +20,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class QuantitatFragment extends Fragment {
+public class QuantitatFragment extends DialogFragment {
 
 
 
