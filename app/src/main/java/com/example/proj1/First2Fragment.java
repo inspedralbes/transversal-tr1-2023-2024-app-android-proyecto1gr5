@@ -22,13 +22,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class First2Fragment extends Fragment {
 
-    private static final String BASE_URL = "http://192.168.122.188:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    Socket mSocket;
+
+    private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
