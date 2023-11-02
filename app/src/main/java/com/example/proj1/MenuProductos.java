@@ -1,11 +1,14 @@
 package com.example.proj1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -41,5 +44,40 @@ public class MenuProductos extends AppCompatActivity  {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menu_productos);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+
+    //Overflow options menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    //Administrador de el directorio
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id= item.getItemId();
+
+        if(id == R.id.item1){
+           //Intent intent = new Intent(MenuProductos.this, Dades.class);
+           // startActivity(intent);
+        }else if(id == R.id.item2){
+            Intent intent = new Intent(MenuProductos.this,MenuProductos.class);
+            startActivity(intent);
+        }else if(id == R.id.item3){
+            Intent intent= new Intent(MenuProductos.this, MainActivity2.class);
+            startActivity(intent);
+        } else if (id == R.id.item4){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+        } else if (id == R.id.item5) {
+            Intent intent = new Intent(MenuProductos.this, MainActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
