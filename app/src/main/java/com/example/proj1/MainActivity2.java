@@ -27,7 +27,7 @@ import io.socket.emitter.Emitter;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    Socket mSocket;
+
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
@@ -36,37 +36,7 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            mSocket = IO.socket("http://192.168.56.1:3001");
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        mSocket.connect();
 
-        if (mSocket.connected()) {
-            Toast.makeText(MainActivity2.this, "Socket Connected!!", Toast.LENGTH_SHORT).show();
-        }
-
-        mSocket.on("canviEstat", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                String data = args[0].toString();
-                Log.d("msg:",data);
-
-                //TextView missatge = new TextView(MainActivity2.this);
-                TextView estat = (TextView) findViewById(R.id.estat);
-                estat.setText(data);
-
-                /*runOnUiThread(new Runnable(){
-                    @Override
-                    public void run() {
-                        ((LinearLayout)findViewById(R.id.layout)).addView(missatge);
-                    }
-                });*/
-            }
-
-
-        });
 
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
