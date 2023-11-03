@@ -91,8 +91,8 @@ public class MainActivity2 extends AppCompatActivity {
         int id= item.getItemId();
 
         if(id == R.id.item1) {
-            //Intent intent = new Intent(MenuProductos.this, Dades.class);
-            // startActivity(intent);
+            Intent intent = new Intent(MainActivity2.this, MainActivityUser.class);
+            startActivity(intent);
 
             //Opcion para ir al Menu de Productos
         }else if(id == R.id.item2){

@@ -37,13 +37,14 @@
 
         <Button
             android:id="@+id/botonPagar"
-            android:layout_width="114dp"
+            android:layout_width="118dp"
             android:layout_height="wrap_content"
-            android:text="Pagar"
-            android:layout_alignParentEnd="true"
             android:layout_below="@+id/appBarLayout"
-            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="10dp"
+            android:text="Pagar"
             tools:ignore="NotSibling,UnknownId" />
     </RelativeLayout>
 

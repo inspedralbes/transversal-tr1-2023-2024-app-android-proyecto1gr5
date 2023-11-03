@@ -2,8 +2,12 @@ package com.example.proj1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +48,9 @@ public class MainActivityUser extends AppCompatActivity {
                     usuaris = response.body();
                     Log.d("producte:", usuaris.getUsuaris().get(0).getNom());
 
+                    TextView nombre = (TextView) findViewById(R.id.nomUsu);
+                    nombre.setText(us);
+
 
                 }
             }
@@ -55,6 +62,41 @@ public class MainActivityUser extends AppCompatActivity {
 
         });
 
+    }
+    //Overflow options menu
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    //Administrador de el directorio
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id= item.getItemId();
+
+        //Opcion para mostrar datos del usuario
+        if(id == R.id.item1) {
+            Intent intent = new Intent(MainActivityUser.this, MainActivityUser.class);
+            startActivity(intent);
+
+            //Opcion para ir al Menu de Productos
+        }else if(id == R.id.item2){
+            Intent intent = new Intent(MainActivityUser.this,MenuProductos.class);
+            startActivity(intent);
+
+            //Opcion para ir al Menu de Comandes
+        }else if(id == R.id.item3){
+            Intent intent= new Intent(MainActivityUser.this, MainActivity2.class);
+            startActivity(intent);
+        } //Opcion para salir de la aplicacion
+        else if (id == R.id.item4){
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

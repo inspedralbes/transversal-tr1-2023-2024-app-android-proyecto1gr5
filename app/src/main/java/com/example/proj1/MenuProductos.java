@@ -2,16 +2,12 @@ package com.example.proj1;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -81,8 +77,8 @@ public class MenuProductos extends AppCompatActivity  {
 
         //Opcion para mostrar datos del usuario
         if(id == R.id.item1) {
-           //Intent intent = new Intent(MenuProductos.this, Dades.class);
-           // startActivity(intent);
+           Intent intent = new Intent(MenuProductos.this, MainActivityUser.class);
+           startActivity(intent);
 
         //Opcion para ir al Menu de Productos
         }else if(id == R.id.item2){

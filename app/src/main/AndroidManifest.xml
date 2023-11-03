@@ -23,6 +23,16 @@
         </activity>
 
         <activity
+            android:name=".MainActivityUser"
+            android:exported="false"
+            android:label="@string/title_activity_menu_productos"
+            android:theme="@style/Theme.Proj1.NoActionBar">
+
+
+
+        </activity>
+
+        <activity
             android:name=".MenuProductos"
             android:exported="false"
             android:label="@string/title_activity_menu_productos"
