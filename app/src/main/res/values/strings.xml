@@ -53,4 +53,12 @@
     <string name="editarcomandafragment">editarComandaFragment</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="item1">Dades</string>
+    <string name="item2">Productres</string>
+    <string name="item3">Comandes</string>
+    <string name="item4">Salir</string>
+    <string name="item5">Cerrar Sesion</string>
+
+
 </resources>
