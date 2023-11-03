@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tit_dad_usu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Dades Usuari"
+        android:textAlignment="center"
+        android:textSize="48sp" />
+
+    <LinearLayout
+        android:id="@+id/layout_productes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtNomUsu"
+                android:layout_width="100px"
+                android:layout_height="40px"
+                android:layout_weight="1"
+                android:text="Nom: " />
+
+            <EditText
+                android:id="@+id/nomUsu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtCognomsUsu"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cognom/s:" />
+
+            <EditText
+                android:id="@+id/CognomsUsu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtNickUsu"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Nick:" />
+
+            <EditText
+                android:id="@+id/nickUsu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtContrUsu"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Contrasenya:" />
+
+            <EditText
+                android:id="@+id/contrUsu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtTarUsu"
+                android:layout_width="100px"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Targeta:" />
+
+            <EditText
+                android:id="@+id/TargetaUsu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
