@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,13 +26,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class First2Fragment extends Fragment {
 
-    private static final String BASE_URL = "http://192.168.122.188:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    Socket mSocket;
+
+    private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -52,6 +59,23 @@ public class First2Fragment extends Fragment {
     )
 
     {
+
+        try {
+            mSocket = IO.socket("http://192.168.56.1:3001");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        mSocket.connect();
+
+        if (mSocket.connected()) {
+            Toast.makeText(rootView.getContext(), "Socket Connected!!", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Log.d("prueba", "error onFailure ");
+        }
+
+
+
 
 
         rootView = inflater.inflate(R.layout.fragment_first2, container, false);
@@ -123,7 +147,7 @@ public class First2Fragment extends Fragment {
             // Asigna los datos a las vistas en el ViewHolder
             Comandes.Comanda item = data.getComandes().get(position);
             //holder.textView.setText(item); // Asignar el dato a la vista de texto
-            String nom_comanda = "Comanda " + (position+1);
+            String nom_comanda = "Comanda " + (item.getId());
             holder.layout_productes.removeAllViews();
             float total = 0;
             for (int i=0;i<item.getProductes().size();i++) {
@@ -153,6 +177,29 @@ public class First2Fragment extends Fragment {
             holder.nom_comanda.setText(nom_comanda);
             holder.total.setText("TOTAL: " + total + " €");
             holder.estat.setText("Estat: " + estat);
+
+            mSocket.on("canviEstat", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    String data = args[0].toString();
+                    Log.d("msg:",data);
+
+                    //TextView missatge = new TextView(MainActivity2.this);
+                    if (data.substring(8).equals(""+item.getId())) {
+                        holder.estat.setText(data);
+                    }
+
+
+                /*runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        ((LinearLayout)findViewById(R.id.layout)).addView(missatge);
+                    }
+                });*/
+                }
+
+
+            });
 
             holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
                 @Override
