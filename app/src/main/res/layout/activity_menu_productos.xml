@@ -20,6 +20,33 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/botonAtras"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:text="Atrás"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="NotSibling" />
+
+        <Button
+            android:id="@+id/botonPagar"
+            android:layout_width="114dp"
+            android:layout_height="wrap_content"
+            android:text="Pagar"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            tools:ignore="NotSibling,UnknownId" />
+    </RelativeLayout>
+
     <include layout="@layout/content_menu_productos" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
