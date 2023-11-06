@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivityUser extends AppCompatActivity {
 
-    private static final String BASE_URL_DADES_USU = "http://192.168.122.188:3001/getUsu/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_DADES_USU = "http://192.168.56.1:3001/getUsu/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -46,10 +46,19 @@ public class MainActivityUser extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     usuaris = response.body();
-                    Log.d("producte:", usuaris.getUsuaris().get(0).getNom());
+                    //Log.d("Usuari:", usuaris.getUsuaris().get(0).getNom());
 
                     TextView nombre = (TextView) findViewById(R.id.nomUsu);
-                    nombre.setText(us);
+                    //nombre.setText();
+
+                    TextView cognom =(TextView) findViewById(R.id.cognomsUsu);
+
+                    TextView nick =(TextView) findViewById(R.id.nickUsu);
+
+                    TextView contrasenya = (TextView) findViewById(R.id.contrUsu);
+
+                    TextView targeta =(TextView) findViewById(R.id.TargetaUsu);
+
 
 
                 }

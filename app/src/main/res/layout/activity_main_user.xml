@@ -56,7 +56,7 @@
                 android:text="Cognom/s:" />
 
             <TextView
-                android:id="@+id/CognomsUsu"
+                android:id="@+id/cognomsUsu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

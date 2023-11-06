@@ -16,47 +16,47 @@ public class Usuaris {
     }
 
     public static class Usuari implements Serializable{
-        @SerializedName("id")
-        private int id;
+        //@SerializedName("id")
+        //private int id;
 
-        @SerializedName("nom")
-        private String nom;
+        //@SerializedName("nom")
+        //private String nom;
 
-        @SerializedName("cognoms")
-        private String cognoms;
+        //@SerializedName("cognoms")
+        //private String cognoms;
 
         @SerializedName("nick")
         private String nick;
 
-        @SerializedName("contrasenya")
-        private int contrasenya;
+        //@SerializedName("contrasenya")
+        //private int contrasenya;
 
-        @SerializedName("dades_targeta")
-        private int dades_targeta;
+        //@SerializedName("dades_targeta")
+        //private int dades_targeta;
 
-        public int getId(){
+        /*public int getId(){
             return id;
-        }
+        }*/
 
-        public String getNom() {
+        /*public String getNom() {
             return nom;
-        }
+        }*/
 
-        public String getCognoms(){
+       /* public String getCognoms(){
             return cognoms;
-        }
+        }*/
 
         public String getNick (){
             return nick;
         }
 
-        public int getContrasenya(){
+        /*public int getContrasenya(){
             return contrasenya;
-        }
+        }*/
 
-        public int getDades_targeta(){
+        /*public int getDades_targeta(){
             return dades_targeta;
-        }
+        }*/
     }
 
 
