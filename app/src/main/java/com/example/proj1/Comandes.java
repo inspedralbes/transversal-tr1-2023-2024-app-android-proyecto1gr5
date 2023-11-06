@@ -26,6 +26,10 @@ public class Comandes {
         @SerializedName("estat")
         private String estat;
 
+        public void setEntrega(String entrega) {
+            this.entrega = entrega;
+        }
+
         @SerializedName("productes")
         private List<ProductesEnviar.Producte> productes;
 
@@ -38,8 +42,6 @@ public class Comandes {
         public String getEstat() { return estat; }
 
         public List<ProductesEnviar.Producte> getProductes() { return productes; }
-
-
 
     }
 }

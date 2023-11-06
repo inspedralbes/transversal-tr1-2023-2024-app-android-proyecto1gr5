@@ -1,5 +1,6 @@
 package com.example.proj1;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -10,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import android.util.Log;
+import android.widget.TimePicker;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +25,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class ConfirmationFragment extends DialogFragment {
+
+    private int selectedHour = -1;
+    private int selectedMinute = -1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,42 +83,29 @@ public class ConfirmationFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 // Aquí colocas el código que deseas ejecutar si el usuario confirma
                 // por ejemplo, eliminar un elemento o realizar una acción.
-                // Reemplaza este comentario con tu código.
-                String BASE_URL = "http://192.168.56.1:3001/pagar/"; //Canviar la IP cada vegada que varii
+                if(getActivity() !=null){
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(
+                            getActivity(),
+                            new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                                    //Guardo la hora seleccionada en las variables
+                                    selectedHour = hourOfDay;
+                                    selectedMinute = minute;
 
-                // Inicializa Retrofit
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(BASE_URL)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
 
-                // Crea una instancia de la interfaz TriviaApi
-                ComandesApi comandesApi = retrofit.create(ComandesApi.class);
+                                }
+                            },
+                            0,0, true
+                    );
+                    Log.d("hola","hola");
+                    timePickerDialog.show();
+                    Log.d("hola","hola");
+                    realizarPagoConHoraSeleccionada();
+                    Log.d("hola","hola");
+                }else{
 
-                Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
-                Log.d("id_comanda","" + comanda.getId());
-
-                // Realiza la llamada a la API
-                Call<Void> call = comandesApi.pagar(comanda);
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        Log.d("Prueba","Estoy entrando al onResponse");
-                        if (response.isSuccessful()) {
-
-                            Log.d("Missatge:","Post realitzat");
-
-                        } else {
-                            Log.d("msg", "Error al fer el call" + response.code()+ " " + response);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Log.d("msg", "error onFailure "+t.getMessage()+" "+t+" "+ call);
-                    }
-                });
-
+                }
             }
         });
 
@@ -129,6 +121,51 @@ public class ConfirmationFragment extends DialogFragment {
 
         // Mostrar el diálogo
         builder.show();
+    }
+
+    private void realizarPagoConHoraSeleccionada(){
+        if(selectedHour != -1 && selectedMinute !=-1){
+            Log.d("hola","hola");
+            String horaEntrega = String.format("%02d:%02d", selectedHour,selectedMinute);
+            Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
+            comanda.setEntrega(horaEntrega);
+            Log.d("Hora de entrega: " ,comanda.getEntrega());
+            // Realiza la solicitud POST al servidor
+            String BASE_URL = "http://192.168.205.252:3001/pagar/"; // Cambiar la IP según sea necesario
+
+            // Inicializa Retrofit
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+            // Crea una instancia de la interfaz TriviaApi
+            ComandesApi comandesApi = retrofit.create(ComandesApi.class);
+
+            // Realiza la llamada a la API
+            Call<Void> call = comandesApi.pagar(comanda);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("Mensaje:", "Pago realizado");
+
+                        // Aquí puedes realizar acciones adicionales si el pago es exitoso
+                    } else {
+                        Log.d("msg", "Error al hacer la llamada: " + response.code() + " " + response);
+
+                        // Aquí puedes manejar errores de la solicitud
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Log.d("msg", "Error onFailure " + t.getMessage() + " " + t + " " + call);
+
+                    // Aquí puedes manejar errores de conexión
+                }
+            });
+        }
     }
 
 }
