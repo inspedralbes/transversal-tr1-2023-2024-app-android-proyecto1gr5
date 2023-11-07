@@ -23,8 +23,7 @@ import java.util.Calendar;
 public class DatePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-    private int selectedHour = -1;
-    private int selectedMinute = -1;
+    private TimePickerListener timePickerListener; //VARIABLE PARA EL LISTENER
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -77,10 +76,18 @@ public class DatePickerFragment extends DialogFragment
         return new TimePickerDialog(getActivity(), this, hour, minute, true);
     }
 
+    public interface TimePickerListener{ //LO NUEVO QUE AÑADO PARA PODER MOSTRAR LA HORA Y LOS MINUTOS
+        void onTimeSelected(int hour, int minute);
+    }
+
+    public void setTimePickerListener(TimePickerListener listener){ //MÉTODO PÚBLICO PARA PERMITIR QUE OTRAS CLASES CONFIGUREN EL LISTENER
+        this.timePickerListener = listener;
+    }
+
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        //Guardo la hora seleccionada en las variables
-        selectedHour = hourOfDay;
-        selectedMinute = minute;
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) { //NOTIFICO AL LISTENER CUANDO SE SELECCIONA LA HORA Y LOS MINUTOS
+        if(timePickerListener !=null){
+            timePickerListener.onTimeSelected(hourOfDay,minute);
+        }
     }
 }

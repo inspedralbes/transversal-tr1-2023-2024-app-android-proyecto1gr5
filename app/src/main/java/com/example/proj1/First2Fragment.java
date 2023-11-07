@@ -28,10 +28,9 @@ import java.net.URISyntaxException;
 
 
 public class First2Fragment extends Fragment {
-
     Socket mSocket;
 
-    private static final String BASE_URL = "http://192.168.205.252:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -57,7 +56,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.205.252:3001");
+            mSocket = IO.socket("http://192.168.56.1:3001");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -69,10 +68,6 @@ public class First2Fragment extends Fragment {
         else {
             Log.d("prueba", "error onFailure ");
         }
-
-
-
-
 
         rootView = inflater.inflate(R.layout.fragment_first2, container, false);
 
@@ -180,18 +175,10 @@ public class First2Fragment extends Fragment {
                     String data = args[0].toString();
                     Log.d("msg:",data);
 
-                    //TextView missatge = new TextView(MainActivity2.this);
                     if (data.substring(8).equals(""+item.getId())) {
                         holder.estat.setText(data);
                     }
 
-
-                /*runOnUiThread(new Runnable(){
-                    @Override
-                    public void run() {
-                        ((LinearLayout)findViewById(R.id.layout)).addView(missatge);
-                    }
-                });*/
                 }
 
             });
@@ -200,8 +187,7 @@ public class First2Fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    showConfirmationFragment(view, item);
-                    mostrarHoraPickerFragment(view);
+                    mostrarHoraPickerFragment(view,item);
 
 
                 }
@@ -249,22 +235,35 @@ public class First2Fragment extends Fragment {
         }
     }
 
-    public void showConfirmationFragment(View v, Comandes.Comanda comanda) {
+    public void showConfirmationFragment(Comandes.Comanda comanda) {
         ConfirmationFragment newFragment = new ConfirmationFragment();
         Bundle args = new Bundle();
         args.putSerializable("comanda", comanda);
         newFragment.setArguments(args);
+
         if (getActivity() != null) {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
 
-    public void mostrarHoraPickerFragment(View v) {
-        DatePickerFragment newFragment = new DatePickerFragment();
 
-        if (getActivity() != null) {
-            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.datepicker));
+    public void mostrarHoraPickerFragment(View v, Comandes.Comanda comanda) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setTimePickerListener(new DatePickerFragment.TimePickerListener() {
+            @Override
+            public void onTimeSelected(int hour, int minute) {
+                int horaSeleccionada = hour;
+                int minutosSeleccionados = minute;
+                String horaYMinutos = String.format("%02d:%02d", horaSeleccionada, minutosSeleccionados);
+                comanda.setEntrega(horaYMinutos);
+                // Después de seleccionar la hora y los minutos, muestra el ConfirmationFragment
+                showConfirmationFragment(comanda);
+            }
+        });
+        if(getActivity() != null){
+            newFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
         }
+
     }
 
     public void showEditarComandaFragment(View v, Comandes.Comanda comanda) {
@@ -276,5 +275,4 @@ public class First2Fragment extends Fragment {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
-
 }
