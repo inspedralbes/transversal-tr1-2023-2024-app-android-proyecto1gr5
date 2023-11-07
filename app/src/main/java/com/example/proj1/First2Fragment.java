@@ -37,7 +37,7 @@ public class First2Fragment extends Fragment {
     private int selectedDay; //Variable para almacenar el día seleccionado
     Socket mSocket;
 
-    private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.0.18:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -63,7 +63,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.56.1:3001");
+            mSocket = IO.socket("http://192.168.0.18:3968");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -251,6 +251,7 @@ public class First2Fragment extends Fragment {
 
         ConfirmationFragment newFragment = new ConfirmationFragment();
         Bundle args = new Bundle();
+        Log.d("entrega:",entrega);
         args.putSerializable("comanda", comanda);
         args.putString("entrega",entrega);
         args.putInt("selectedYear",selectedYear);

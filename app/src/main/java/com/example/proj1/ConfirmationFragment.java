@@ -84,8 +84,10 @@ public class ConfirmationFragment extends DialogFragment {
                 // Aquí colocas el código que deseas ejecutar si el usuario confirma
                 // por ejemplo, eliminar un elemento o realizar una acción.
                 Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
+                String entrega = (String) getArguments().getString("entrega");
+                comanda.setEntrega(entrega);
                 // Realiza la solicitud POST al servidor
-                String BASE_URL = "http://192.168.56.1:3001/pagar/"; // Cambiar la IP según sea necesario
+                String BASE_URL = "http://192.168.0.18:3968/pagar/"; // Cambiar la IP según sea necesario
 
                 // Inicializa Retrofit
                 Retrofit retrofit = new Retrofit.Builder()
