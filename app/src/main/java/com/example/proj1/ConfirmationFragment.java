@@ -1,5 +1,6 @@
 package com.example.proj1;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
@@ -11,7 +12,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import android.util.Log;
+import android.widget.DatePicker;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -137,6 +141,4 @@ public class ConfirmationFragment extends DialogFragment {
         // Mostrar el diálogo
         builder.show();
     }
-
-
 }

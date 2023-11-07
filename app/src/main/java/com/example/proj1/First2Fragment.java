@@ -25,9 +25,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class First2Fragment extends Fragment {
+    private int selectedHour; //Variable para almacenar la hora seleccionada
+    private int selectedMinute; //Variable para almacenar los minutos seleccionados
+    private int selectedYear; //Variable para almacenar el año seleccionado
+    private int selectedMonth; //Variable para almacenar el mes seleccionado
+    private int selectedDay; //Variable para almacenar el día seleccionado
     Socket mSocket;
 
     private static final String BASE_URL = "http://192.168.56.1:3001/getComandes/"; //Canviar la IP cada vegada que varii
@@ -187,7 +194,7 @@ public class First2Fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    mostrarHoraPickerFragment(view,item);
+                    mostrarDatePickerFragment(view,item);
 
 
                 }
@@ -235,10 +242,22 @@ public class First2Fragment extends Fragment {
         }
     }
 
-    public void showConfirmationFragment(Comandes.Comanda comanda) {
+    public String formatFechaHora(int year, int month, int day, int hour, int minute){
+        String formattedDate = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
+        return formattedDate;
+    }
+
+    public void showConfirmationFragment(Comandes.Comanda comanda,String entrega, int selectedYear, int selectedMonth, int selectedDay, int selectedHour, int selectedMinute) {
+
         ConfirmationFragment newFragment = new ConfirmationFragment();
         Bundle args = new Bundle();
         args.putSerializable("comanda", comanda);
+        args.putString("entrega",entrega);
+        args.putInt("selectedYear",selectedYear);
+        args.putInt("selectedMonth",selectedMonth);
+        args.putInt("selectedDay",selectedDay);
+        args.putInt("hour",selectedHour);
+        args.putInt("minute",selectedMinute);
         newFragment.setArguments(args);
 
         if (getActivity() != null) {
@@ -246,24 +265,41 @@ public class First2Fragment extends Fragment {
         }
     }
 
-
-    public void mostrarHoraPickerFragment(View v, Comandes.Comanda comanda) {
-        DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.setTimePickerListener(new DatePickerFragment.TimePickerListener() {
+    public void mostrarDatePickerFragment(View view, Comandes.Comanda comanda){
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setDatePickerListener(new DatePickerFragment.DatePickerListener() {
             @Override
-            public void onTimeSelected(int hour, int minute) {
-                int horaSeleccionada = hour;
-                int minutosSeleccionados = minute;
-                String horaYMinutos = String.format("%02d:%02d", horaSeleccionada, minutosSeleccionados);
-                comanda.setEntrega(horaYMinutos);
-                // Después de seleccionar la hora y los minutos, muestra el ConfirmationFragment
-                showConfirmationFragment(comanda);
+            public void onDateSelected(int year, int month, int day) {
+                //Almaceno la fecha seleccionada en variables locales
+                selectedYear = year;
+                selectedMonth = month;
+                selectedDay = day;
+                //Luego muestra el TimePickerFragment
+                mostrarTimePickerFragment(comanda, selectedYear,selectedMonth,selectedDay);
             }
         });
         if(getActivity() != null){
-            newFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
+            datePickerFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
         }
+    }
 
+    public void mostrarTimePickerFragment(Comandes.Comanda comanda, int selectedYear, int selectedMonth, int selectedDay){
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+
+        timePickerFragment.setTimePickerListener(new TimePickerFragment.TimePickerListener() {
+            @Override
+            public void onTimeSelected(int hour, int minute) {
+                //Almaceno la hora y los minutos seleccionados en variables locales
+                selectedHour = hour;
+                selectedMinute = minute;
+                String entrega = formatFechaHora(selectedYear, selectedMonth + 1,selectedDay,selectedHour,selectedMinute);
+                //Luego muestro el ConfirmationFragment
+                showConfirmationFragment(comanda,entrega,selectedYear,selectedMonth,selectedDay,selectedHour,selectedMinute);
+            }
+        });
+        if(getActivity() != null){
+            timePickerFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
+        }
     }
 
     public void showEditarComandaFragment(View v, Comandes.Comanda comanda) {

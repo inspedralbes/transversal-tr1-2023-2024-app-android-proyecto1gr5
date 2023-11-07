@@ -25,7 +25,7 @@ public class Comandes {
 
         @SerializedName("estat")
         private String estat;
-
+        @SerializedName("entrega")
         public void setEntrega(String entrega) { //Se utiliza para configurar la hora y los minutos cuando el usuario selecciona el DatePicker
             this.entrega = entrega;
         }
