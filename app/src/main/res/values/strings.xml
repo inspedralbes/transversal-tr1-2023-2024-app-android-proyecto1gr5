@@ -48,6 +48,7 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="COMANDES">COMANDES</string>
+    <string name="quantityfragment">quantityFragment</string>
     <string name="confirmationfragment">confirmationFragment</string>
     <string name="datepicker">datePicker</string>
     <string name="editarcomandafragment">editarComandaFragment</string>

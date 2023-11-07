@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FirstFragment extends Fragment {
 
 
-    public void showQuantitatFragment(View v, ProductesRebre.Producte producte) {
+    /*public void showQuantitatFragment(View v, ProductesRebre.Producte producte) {
         QuantitatFragment newFragment = new QuantitatFragment();
         Bundle args = new Bundle();
         args.putSerializable("producte", producte);
@@ -42,9 +42,19 @@ public class FirstFragment extends Fragment {
             transaction.addToBackStack(null); // Opcional, para agregar la transacción a la pila de retroceso
             transaction.commit();
         }
+    }*/
+
+    public void showQuantitytFragment(View v, ProductesRebre.Producte producte) {
+        QuantityFragment newFragment = new QuantityFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("producte", producte);
+        newFragment.setArguments(args);
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.quantityfragment));
+        }
     }
 
-    private static final String BASE_URL_getProductes = "http://192.168.122.188:3001/getProductes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_getProductes = "http://192.168.56.1:3968/getProductes/"; //Canviar la IP cada vegada que varii
 
 
     // Inicializa Retrofit
@@ -177,7 +187,7 @@ public class FirstFragment extends Fragment {
 
 
 
-                    showQuantitatFragment(view, item);
+                    showQuantitytFragment(view, item);
 
 
 
