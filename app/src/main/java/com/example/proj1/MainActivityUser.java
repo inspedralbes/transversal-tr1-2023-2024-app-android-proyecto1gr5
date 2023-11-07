@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivityUser extends AppCompatActivity {
 
-    private static final String BASE_URL_DADES_USU = "http://192.168.56.1:3001/getUsu/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_DADES_USU = "http://192.168.56.1:3968"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -44,21 +44,24 @@ public class MainActivityUser extends AppCompatActivity {
 
                 Log.d("msg", "Estic entrant al onResponse al User");
                 if (response.isSuccessful()) {
+                    Usuaris dades = response.body();
+                    // Accede a los datos usando los getter
+                    String nom = dades.getNom();
+                    String cognoms = dades.getCognoms();
+                    String nick = dades.getNick();
+                    String dades_targeta = dades.getDades_targeta();
 
-                    usuaris = response.body();
-                    //Log.d("Usuari:", usuaris.getUsuaris().get(0).getNom());
+                    TextView nomUsuari = findViewById(R.id.nickUsu);
+                    nomUsuari.setText(nick);
 
-                    TextView nombre = (TextView) findViewById(R.id.nomUsu);
-                    //nombre.setText();
+                    TextView nombre = findViewById(R.id.nomUsu);
+                    nombre.setText(nom);
 
-                    TextView cognom =(TextView) findViewById(R.id.cognomsUsu);
+                    TextView cognom =findViewById(R.id.cognomsUsu);
+                    cognom.setText(cognoms);
 
-                    TextView nick =(TextView) findViewById(R.id.nickUsu);
-
-                    TextView contrasenya = (TextView) findViewById(R.id.contrUsu);
-
-                    TextView targeta =(TextView) findViewById(R.id.TargetaUsu);
-
+                    TextView tarjeta = findViewById(R.id.TargetaUsu);
+                    tarjeta.setText(dades_targeta);
 
 
                 }
