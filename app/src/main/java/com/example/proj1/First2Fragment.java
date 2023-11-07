@@ -35,7 +35,7 @@ public class First2Fragment extends Fragment {
 
     Socket mSocket;
 
-    private static final String BASE_URL = "http://192.168.122.188:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.205.190:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -61,7 +61,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.122.188:3001");
+            mSocket = IO.socket("http://192.168.205.190:3968");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -186,6 +186,8 @@ public class First2Fragment extends Fragment {
 
                     //TextView missatge = new TextView(MainActivity2.this);
                     if (data.substring(8).equals(""+item.getId())) {
+                        holder.estat.setText(data);
+                    } else if (data.substring(9).equals(""+item.getId())) {
                         holder.estat.setText(data);
                     }
 
