@@ -10,7 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,13 +24,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.fragment.app.DialogFragment;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
-public class First2Fragment extends Fragment {
+public class First2Fragment extends Fragment  {
 
-    private static final String BASE_URL = "http://192.168.56.1:3968/getComandes/"; //Canviar la IP cada vegada que varii
+    private MiAdaptador adaptador;
+
+
+    private static final String BASE_URL = "http://192.168.0.18:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -70,9 +80,12 @@ public class First2Fragment extends Fragment {
                     comandes = response.body();
                     Log.d("comanda:","" + comandes.getComandes().get(0).getId());
 
+                    // Invierte el orden de la lista de comandas
+                    Collections.reverse(comandes.getComandes());
 
 
-                    MiAdaptador adaptador = new MiAdaptador(comandes);
+
+                    adaptador = new MiAdaptador(comandes);
                     recyclerView.setAdapter(adaptador);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity())); // Puedes usar otro LayoutManager según tus necesidades
 
@@ -148,11 +161,13 @@ public class First2Fragment extends Fragment {
             }
 
             String estat = item.getEstat();
+            String dataComanda = convertirFormatoFechaHora(item.getDataComanda());
 
 
             holder.nom_comanda.setText(nom_comanda);
             holder.total.setText("TOTAL: " + total + " €");
             holder.estat.setText("Estat: " + estat);
+            holder.dataComanda.setText("Data Comanda: " + dataComanda);
 
             holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,6 +196,17 @@ public class First2Fragment extends Fragment {
                 }
             });
 
+            if (!item.getEstat().equals("oberta")) {
+                // Comanda pagada, deshabilita los botones y cambia la apariencia
+                holder.boto_pagar.setEnabled(false);
+                holder.boto_editar.setEnabled(false);
+                holder.boto_eliminar.setEnabled(false);
+                // Cambia la apariencia de los botones, por ejemplo, el color de fondo
+                holder.boto_pagar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
+                holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
+                holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
+            }
+
         }
 
         @Override
@@ -196,6 +222,7 @@ public class First2Fragment extends Fragment {
             LinearLayout layout_productes;
             TextView total;
             TextView estat;
+            TextView dataComanda;
             Button boto_editar;
             Button boto_eliminar;
             Button boto_pagar;
@@ -207,12 +234,26 @@ public class First2Fragment extends Fragment {
                 layout_productes = itemView.findViewById(R.id.layout_productes);
                 total = itemView.findViewById(R.id.total);
                 estat = itemView.findViewById(R.id.estat);
+                dataComanda = itemView.findViewById(R.id.dataComanda);
                 boto_editar = itemView.findViewById(R.id.boto_editar);
                 boto_eliminar = itemView.findViewById(R.id.boto_eliminar);
                 boto_pagar = itemView.findViewById(R.id.botor_pagar);
             }
         }
     }
+
+    private String convertirFormatoFechaHora(String fechaHoraISO8601) {
+        try {
+            SimpleDateFormat formatoISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            SimpleDateFormat formatoLegible = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            Date fechaHora = formatoISO8601.parse(fechaHoraISO8601);
+            return formatoLegible.format(fechaHora);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return fechaHoraISO8601; // En caso de error, se muestra la cadena original
+        }
+    }
+
 
     public void showConfirmationFragment(View v, Comandes.Comanda comanda) {
         ConfirmationFragment newFragment = new ConfirmationFragment();

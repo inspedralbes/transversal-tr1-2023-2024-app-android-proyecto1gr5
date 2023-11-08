@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class QuantityFragment extends DialogFragment {
 
+    private SharedViewModel sharedViewModel;
+
     private View rootView;
 
     private ProductesRebre.Producte producte;
@@ -42,6 +45,7 @@ public class QuantityFragment extends DialogFragment {
     private Button decrementButton;
     private Button saveButton;
     private Button cancelButton;
+    int posicio;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,9 +78,12 @@ public class QuantityFragment extends DialogFragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        // Resto del código de onCreate
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -99,8 +106,11 @@ public class QuantityFragment extends DialogFragment {
         cancelButton = rootView.findViewById(R.id.cancelButton);
         // Recupera los argumentos pasados
         producte = (ProductesRebre.Producte) getArguments().getSerializable("producte");
+        posicio = getArguments().getInt("posicio");
         // Configura tus vistas según los datos del producto, por ejemplo:
         // producte.getNombre(), producte.getCantidad(), etc.
+
+
 
 
         // Mostrar la quantitat inicial d'unitats
@@ -136,11 +146,10 @@ public class QuantityFragment extends DialogFragment {
 
                 // Obtén la cantidad seleccionada, por ejemplo, desde un TextView o una variable.
 
-                // Llama al método onQuantitySelected de la interfaz
 
                 ProductesEnviar.Producte producte_enviar = new ProductesEnviar.Producte(producte, unitats_seleccionades);
 
-                String BASE_URL_updateComanda = "http://192.168.56.1:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
+                String BASE_URL_updateComanda = "http://192.168.0.18:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
 
                 Retrofit retrofit_updateComanda = new Retrofit.Builder()
                         .baseUrl(BASE_URL_updateComanda)
@@ -174,7 +183,8 @@ public class QuantityFragment extends DialogFragment {
                     }
                 });
 
-
+                // Actualiza el ViewModel con la nueva cantidad y la posición
+                sharedViewModel.selectProduct(posicio, unitats_seleccionades);
 
             }
 

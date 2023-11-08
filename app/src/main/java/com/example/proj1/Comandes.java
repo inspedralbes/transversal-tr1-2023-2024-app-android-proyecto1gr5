@@ -29,6 +29,9 @@ public class Comandes {
         @SerializedName("productes")
         private List<ProductesEnviar.Producte> productes;
 
+        @SerializedName("datacomanda")
+        private String dataComanda;
+
         public int getId() { return id; }
 
         public int getId_usuari() { return id_usuari; }
@@ -39,7 +42,7 @@ public class Comandes {
 
         public List<ProductesEnviar.Producte> getProductes() { return productes; }
 
-
+        public String getDataComanda() { return dataComanda; }
 
     }
 }

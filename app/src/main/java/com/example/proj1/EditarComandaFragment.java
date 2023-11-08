@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,9 +25,13 @@ import java.util.List;
  * Use the {@link EditarComandaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditarComandaFragment extends DialogFragment {
+public class EditarComandaFragment extends DialogFragment  {
+
+    private MiAdaptador adaptador;
+    private SharedViewModel sharedViewModel;
 
     private View rootView;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,9 +64,22 @@ public class EditarComandaFragment extends DialogFragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
+        // Observa cambios en la cantidad del producto
+        sharedViewModel.getSelectedProductQuantity().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer newQuantity) {
+                // Actualiza el TextView del RecyclerView cuando cambie la cantidad
+                adaptador.updateProductQuantity(sharedViewModel.getSelectedProductPosition().getValue(), newQuantity);
+            }
+        });
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -83,6 +102,9 @@ public class EditarComandaFragment extends DialogFragment {
         recyclerView.setAdapter(adaptador);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity())); // Puedes usar otro LayoutManager según tus necesidades
         // Inflate the layout for this fragment
+
+
+
         return rootView;
 
 
@@ -94,6 +116,12 @@ public class EditarComandaFragment extends DialogFragment {
 
         public MiAdaptador(List<ProductesEnviar.Producte> data) {
             this.data = data;
+        }
+
+        // Método para actualizar la cantidad del producto en la lista de datos
+        public void updateProductQuantity(int position, int newQuantity) {
+            data.get(position).setQuantitat(newQuantity);
+            notifyItemChanged(position);
         }
 
         @NonNull
@@ -114,18 +142,20 @@ public class EditarComandaFragment extends DialogFragment {
             holder.nom_producte.setText(item.getNom());
             holder.categoria_producte.setText(item.getCategoria());
             holder.preu_quant_producte.setText(item.getPreu() + " €   " + "x" + item.getQuantitat());
-            /*holder.boto_modificar_quantitat.setOnClickListener(new View.OnClickListener() {
+            holder.boto_modificar_quantitat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
 
-
-                    showQuantitatFragment(view, item);
+                    ProductesRebre.Producte producte = new ProductesRebre.Producte(item);
+                    showQuantityFragment(view, producte, position);
 
 
 
                 }
-            });*/
+            });
+
+
         }
 
         @Override
@@ -159,19 +189,15 @@ public class EditarComandaFragment extends DialogFragment {
 
     }
 
-    /*public void showQuantitatFragment(View v, ProductesEnviar.Producte producte) {
-        QuantitatFragment newFragment = new QuantitatFragment();
+    public void showQuantityFragment(View v, ProductesRebre.Producte producte, int posicio) {
+        QuantityFragment newFragment = new QuantityFragment();
         Bundle args = new Bundle();
         args.putSerializable("producte", producte);
+        args.putInt("posicio", posicio);
         newFragment.setArguments(args);
-
-
-
-        if (getChildFragmentManager() != null) {
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newFragment); // Reemplaza R.id.fragment_container con el ID de tu contenedor de fragmentos
-            transaction.addToBackStack(null); // Opcional, para agregar la transacción a la pila de retroceso
-            transaction.commit();
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.quantityfragment));
         }
-    }*/
+    }
+
 }
