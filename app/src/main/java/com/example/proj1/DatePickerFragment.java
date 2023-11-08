@@ -20,11 +20,9 @@ import java.util.Calendar;
  * Use the {@link DatePickerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DatePickerFragment extends DialogFragment
-        implements TimePickerDialog.OnTimeSetListener {
+public class DatePickerFragment extends DialogFragment {
 
-    private int selectedHour = -1;
-    private int selectedMinute = -1;
+    private DatePickerListener datePickerListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,19 +66,25 @@ public class DatePickerFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker.
         final Calendar c = Calendar.getInstance();
-        //int year = c.get(Calendar.YEAR);
-        //int month = c.get(Calendar.MONTH);
-        //int day = c.get(Calendar.DAY_OF_MONTH);
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-        // Create a new instance of DatePickerDialog and return it.
-        return new TimePickerDialog(getActivity(), this, hour, minute, true);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        return new DatePickerDialog(requireActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                if(datePickerListener !=null){
+                    datePickerListener.onDateSelected(year,month,dayOfMonth);
+                }
+            }
+        }, year, month, day);
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        //Guardo la hora seleccionada en las variables
-        selectedHour = hourOfDay;
-        selectedMinute = minute;
+    public interface DatePickerListener{
+        void onDateSelected(int year, int month, int day);
     }
+
+    public void setDatePickerListener(DatePickerListener listener){
+        this.datePickerListener = listener;
+    }
+
 }

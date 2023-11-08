@@ -25,13 +25,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class First2Fragment extends Fragment {
-
+    private int selectedHour; //Variable para almacenar la hora seleccionada
+    private int selectedMinute; //Variable para almacenar los minutos seleccionados
+    private int selectedYear; //Variable para almacenar el año seleccionado
+    private int selectedMonth; //Variable para almacenar el mes seleccionado
+    private int selectedDay; //Variable para almacenar el día seleccionado
     Socket mSocket;
 
-    private static final String BASE_URL = "http://192.168.205.252:3001/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.0.18:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -57,7 +63,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.205.252:3001");
+            mSocket = IO.socket("http://192.168.0.18:3968");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -69,10 +75,6 @@ public class First2Fragment extends Fragment {
         else {
             Log.d("prueba", "error onFailure ");
         }
-
-
-
-
 
         rootView = inflater.inflate(R.layout.fragment_first2, container, false);
 
@@ -180,18 +182,10 @@ public class First2Fragment extends Fragment {
                     String data = args[0].toString();
                     Log.d("msg:",data);
 
-                    //TextView missatge = new TextView(MainActivity2.this);
                     if (data.substring(8).equals(""+item.getId())) {
                         holder.estat.setText(data);
                     }
 
-
-                /*runOnUiThread(new Runnable(){
-                    @Override
-                    public void run() {
-                        ((LinearLayout)findViewById(R.id.layout)).addView(missatge);
-                    }
-                });*/
                 }
 
             });
@@ -200,8 +194,7 @@ public class First2Fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-                    showConfirmationFragment(view, item);
-                    mostrarHoraPickerFragment(view);
+                    mostrarDatePickerFragment(view,item);
 
 
                 }
@@ -249,21 +242,64 @@ public class First2Fragment extends Fragment {
         }
     }
 
-    public void showConfirmationFragment(View v, Comandes.Comanda comanda) {
+    public String formatFechaHora(int year, int month, int day, int hour, int minute){
+        String formattedDate = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
+        return formattedDate;
+    }
+
+    public void showConfirmationFragment(Comandes.Comanda comanda,String entrega, int selectedYear, int selectedMonth, int selectedDay, int selectedHour, int selectedMinute) {
+
         ConfirmationFragment newFragment = new ConfirmationFragment();
         Bundle args = new Bundle();
+        Log.d("entrega:",entrega);
         args.putSerializable("comanda", comanda);
+        args.putString("entrega",entrega);
+        args.putInt("selectedYear",selectedYear);
+        args.putInt("selectedMonth",selectedMonth);
+        args.putInt("selectedDay",selectedDay);
+        args.putInt("hour",selectedHour);
+        args.putInt("minute",selectedMinute);
         newFragment.setArguments(args);
+
         if (getActivity() != null) {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
 
-    public void mostrarHoraPickerFragment(View v) {
-        DatePickerFragment newFragment = new DatePickerFragment();
+    public void mostrarDatePickerFragment(View view, Comandes.Comanda comanda){
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setDatePickerListener(new DatePickerFragment.DatePickerListener() {
+            @Override
+            public void onDateSelected(int year, int month, int day) {
+                //Almaceno la fecha seleccionada en variables locales
+                selectedYear = year;
+                selectedMonth = month;
+                selectedDay = day;
+                //Luego muestra el TimePickerFragment
+                mostrarTimePickerFragment(comanda, selectedYear,selectedMonth,selectedDay);
+            }
+        });
+        if(getActivity() != null){
+            datePickerFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
+        }
+    }
 
-        if (getActivity() != null) {
-            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.datepicker));
+    public void mostrarTimePickerFragment(Comandes.Comanda comanda, int selectedYear, int selectedMonth, int selectedDay){
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+
+        timePickerFragment.setTimePickerListener(new TimePickerFragment.TimePickerListener() {
+            @Override
+            public void onTimeSelected(int hour, int minute) {
+                //Almaceno la hora y los minutos seleccionados en variables locales
+                selectedHour = hour;
+                selectedMinute = minute;
+                String entrega = formatFechaHora(selectedYear, selectedMonth + 1,selectedDay,selectedHour,selectedMinute);
+                //Luego muestro el ConfirmationFragment
+                showConfirmationFragment(comanda,entrega,selectedYear,selectedMonth,selectedDay,selectedHour,selectedMinute);
+            }
+        });
+        if(getActivity() != null){
+            timePickerFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
         }
     }
 
@@ -276,5 +312,4 @@ public class First2Fragment extends Fragment {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
-
 }
