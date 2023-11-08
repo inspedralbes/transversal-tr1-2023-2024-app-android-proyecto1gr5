@@ -18,35 +18,36 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.Proj1.PopupOverlay" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/botonAtras"
+                android:layout_width="114dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appBarLayout"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Atrás"
+                tools:ignore="NotSibling" />
+
+            <Button
+                android:id="@+id/botonPagar"
+                android:layout_width="118dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appBarLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="10dp"
+                android:text="Pagar"
+                tools:ignore="NotSibling,UnknownId" />
+        </RelativeLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/botonAtras"
-            android:layout_width="114dp"
-            android:layout_height="wrap_content"
-            android:text="Atrás"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/appBarLayout"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            tools:ignore="NotSibling" />
-
-        <Button
-            android:id="@+id/botonPagar"
-            android:layout_width="118dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appBarLayout"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginRight="10dp"
-            android:text="Pagar"
-            tools:ignore="NotSibling,UnknownId" />
-    </RelativeLayout>
 
     <include layout="@layout/content_menu_productos" />
 

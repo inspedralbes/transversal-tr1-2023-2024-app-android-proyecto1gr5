@@ -87,7 +87,7 @@ public class ConfirmationFragment extends DialogFragment {
                 String entrega = (String) getArguments().getString("entrega");
                 comanda.setEntrega(entrega);
                 // Realiza la solicitud POST al servidor
-                String BASE_URL = "http://192.168.0.18:3968/pagar/"; // Cambiar la IP según sea necesario
+                String BASE_URL = "http://192.168.205.190:3968/pagar/"; // Cambiar la IP según sea necesario
 
                 // Inicializa Retrofit
                 Retrofit retrofit = new Retrofit.Builder()

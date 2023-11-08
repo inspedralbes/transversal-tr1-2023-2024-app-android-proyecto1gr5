@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.URISyntaxException;
+
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -23,10 +25,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class First2Fragment extends Fragment {
@@ -37,7 +35,7 @@ public class First2Fragment extends Fragment {
     private int selectedDay; //Variable para almacenar el día seleccionado
     Socket mSocket;
 
-    private static final String BASE_URL = "http://192.168.0.18:3968/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.205.190:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -63,7 +61,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.0.18:3968");
+            mSocket = IO.socket("http://192.168.205.190:3968");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

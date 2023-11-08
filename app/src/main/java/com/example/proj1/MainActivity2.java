@@ -26,10 +26,6 @@ import com.example.proj1.databinding.ActivityMain2Binding;
 
 import java.net.URISyntaxException;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
 public class MainActivity2 extends AppCompatActivity {
 
 
