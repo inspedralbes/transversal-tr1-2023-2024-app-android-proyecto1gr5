@@ -30,6 +30,8 @@
 
 
 
+
+
         </activity>
 
         <activity
@@ -37,6 +39,8 @@
             android:exported="false"
             android:label="@string/title_activity_menu_productos"
             android:theme="@style/Theme.Proj1.NoActionBar">
+
+
 
 
 

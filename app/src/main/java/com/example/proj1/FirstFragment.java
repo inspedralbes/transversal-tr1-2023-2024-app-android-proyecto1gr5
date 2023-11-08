@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,24 +28,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FirstFragment extends Fragment {
 
+    private EditText editTextSearch;
+    private Button buttonSearch;
 
-    public void showQuantitatFragment(View v, ProductesRebre.Producte producte) {
-        QuantitatFragment newFragment = new QuantitatFragment();
+    RecyclerView recyclerView;
+
+
+    public void showQuantityFragment(View v, ProductesRebre.Producte producte) {
+        QuantityFragment newFragment = new QuantityFragment();
         Bundle args = new Bundle();
         args.putSerializable("producte", producte);
         newFragment.setArguments(args);
-
-
-
-        if (getChildFragmentManager() != null) {
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, newFragment); // Reemplaza R.id.fragment_container con el ID de tu contenedor de fragmentos
-            transaction.addToBackStack(null); // Opcional, para agregar la transacción a la pila de retroceso
-            transaction.commit();
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.quantityfragment));
         }
     }
 
-    private static final String BASE_URL_getProductes = "http://192.168.205.190:3968/getProductes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_getProductes = "http://192.168.56.1:3968/getProductes/"; //Canviar la IP cada vegada que varii
 
 
     // Inicializa Retrofit
@@ -73,7 +73,11 @@ public class FirstFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_first, container, false);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewProductes);
+        // Encuentra los elementos de la interfaz gráfica
+        editTextSearch = rootView.findViewById(R.id.editTextSearch);
+        buttonSearch = rootView.findViewById(R.id.buttonSearch);
+
+        recyclerView = rootView.findViewById(R.id.recyclerViewProductes);
 
         // Realiza la llamada a la API
         Call<ProductesRebre> call = productesApi.getProductes();
@@ -113,17 +117,40 @@ public class FirstFragment extends Fragment {
             }
         });
 
-
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performSearch();
+            }
+        });
 
 
         return rootView;
 
     }
 
+    private void performSearch() {
+        String query = editTextSearch.getText().toString().trim().toLowerCase();
+
+        // Filtra la lista de productos según la búsqueda
+        List<ProductesRebre.Producte> filteredProducts = new ArrayList<>();
+        for (ProductesRebre.Producte product : productes.getProductes()) {
+            if (product.getNom().toLowerCase().contains(query) || product.getCategoria().toLowerCase().contains(query)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        ProductesRebre productes_filtrats = new ProductesRebre(filteredProducts);
+
+        // Actualiza el RecyclerView con los resultados de la búsqueda
+        MiAdaptador adaptador = new MiAdaptador(productes_filtrats);
+        recyclerView.setAdapter(adaptador);
+        editTextSearch.setText("");
+    }
+
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button boto_afegir_comanda = (Button) rootView.findViewById(R.id.boto_modificar_quantitat);
 
     }
 
@@ -140,7 +167,10 @@ public class FirstFragment extends Fragment {
 
         public MiAdaptador(ProductesRebre data) {
             this.data = data;
-            this.categoria_referencia = data.getProductes().get(0).getCategoria();
+            if (data.getProductes().size() != 0) {
+                this.categoria_referencia = data.getProductes().get(0).getCategoria();
+            }
+
         }
 
         @NonNull
@@ -153,7 +183,8 @@ public class FirstFragment extends Fragment {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             // Asigna los datos a las vistas en el ViewHolder
-            ProductesRebre.Producte item = data.getProductes().get(position);
+            if (data.getProductes().size() != 0) {
+                ProductesRebre.Producte item = data.getProductes().get(position);
 
 
                 if (!this.categoria_referencia.equals(item.getCategoria()) || position == 0) {
@@ -167,22 +198,24 @@ public class FirstFragment extends Fragment {
 
 
 
-            int img_producte = getResources().getIdentifier(item.getUrlImatge().substring(0, item.getUrlImatge().length() - 4), "drawable", getContext().getPackageName());
+                int img_producte = getResources().getIdentifier(item.getUrlImatge().substring(0, item.getUrlImatge().length() - 4), "drawable", getContext().getPackageName());
 
-            holder.img_producte.setImageResource(img_producte);
-            holder.nom_producte.setText(item.getNom());
-            holder.boto_afegir_comanda.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-
-                    showQuantitatFragment(view, item);
+                holder.img_producte.setImageResource(img_producte);
+                holder.nom_producte.setText(item.getNom());
+                holder.boto_afegir_comanda.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
 
 
-                }
-            });
+                        showQuantityFragment(view, item);
+
+
+
+                    }
+                });
+            }
+
         }
 
         @Override

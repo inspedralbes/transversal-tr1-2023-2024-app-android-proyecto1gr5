@@ -1,7 +1,5 @@
 package com.example.proj1;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -12,10 +10,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import android.util.Log;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
-
-import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class ConfirmationFragment extends DialogFragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -83,11 +78,8 @@ public class ConfirmationFragment extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 // Aquí colocas el código que deseas ejecutar si el usuario confirma
                 // por ejemplo, eliminar un elemento o realizar una acción.
-                Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
-                String entrega = (String) getArguments().getString("entrega");
-                comanda.setEntrega(entrega);
-                // Realiza la solicitud POST al servidor
-                String BASE_URL = "http://192.168.205.190:3968/pagar/"; // Cambiar la IP según sea necesario
+                // Reemplaza este comentario con tu código.
+                String BASE_URL = "http://192.168.56.1:3968/pagar/"; //Canviar la IP cada vegada que varii
 
                 // Inicializa Retrofit
                 Retrofit retrofit = new Retrofit.Builder()
@@ -97,36 +89,31 @@ public class ConfirmationFragment extends DialogFragment {
 
                 // Crea una instancia de la interfaz TriviaApi
                 ComandesApi comandesApi = retrofit.create(ComandesApi.class);
-                Log.d("Mensaje:", "Intentando realizar el pago");
-                Log.d("Mensaje:", "Datos de la comanda que se enviarán:");
-                Log.d("Mensaje:", "ID: " + comanda.getId());
-                Log.d("Mensaje:", "ID Usuario: " + comanda.getId_usuari());
-                Log.d("Mensaje:", "Entrega: " + comanda.getEntrega());
-                Log.d("Mensaje:", "Estat: " + comanda.getEstat());
+
+                Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
+                Log.d("id_comanda","" + comanda.getId());
 
                 // Realiza la llamada a la API
                 Call<Void> call = comandesApi.pagar(comanda);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.d("Prueba","Estoy entrando al onResponse");
                         if (response.isSuccessful()) {
-                            Log.d("Mensaje:", "Pago realizado");
 
-                            // Aquí puedes realizar acciones adicionales si el pago es exitoso
+                            Log.d("Missatge:","Post realitzat");
+
                         } else {
-                            Log.d("msg", "Error al hacer la llamada: " + response.code() + " " + response);
-
-                            // Aquí puedes manejar errores de la solicitud
+                            Log.d("msg", "Error al fer el call" + response.code()+ " " + response);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        Log.d("msg", "Error onFailure " + t.getMessage() + " " + t + " " + call);
-
-                        // Aquí puedes manejar errores de conexión
+                        Log.d("msg", "error onFailure "+t.getMessage()+" "+t+" "+ call);
                     }
                 });
+
             }
         });
 
@@ -143,4 +130,5 @@ public class ConfirmationFragment extends DialogFragment {
         // Mostrar el diálogo
         builder.show();
     }
+
 }

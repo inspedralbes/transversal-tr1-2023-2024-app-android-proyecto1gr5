@@ -8,34 +8,37 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.net.URISyntaxException;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import androidx.fragment.app.DialogFragment;
 
-public class First2Fragment extends Fragment {
-    private int selectedHour; //Variable para almacenar la hora seleccionada
-    private int selectedMinute; //Variable para almacenar los minutos seleccionados
-    private int selectedYear; //Variable para almacenar el año seleccionado
-    private int selectedMonth; //Variable para almacenar el mes seleccionado
-    private int selectedDay; //Variable para almacenar el día seleccionado
-    Socket mSocket;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
-    private static final String BASE_URL = "http://192.168.205.190:3968/getComandes/"; //Canviar la IP cada vegada que varii
+
+public class First2Fragment extends Fragment  {
+
+    private MiAdaptador adaptador;
+
+
+    private static final String BASE_URL = "http://192.168.56.1:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -60,19 +63,6 @@ public class First2Fragment extends Fragment {
 
     {
 
-        try {
-            mSocket = IO.socket("http://192.168.205.190:3968");
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-        mSocket.connect();
-
-        if (mSocket.connected()) {
-            Toast.makeText(rootView.getContext(), "Socket Connected!!", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Log.d("prueba", "error onFailure ");
-        }
 
         rootView = inflater.inflate(R.layout.fragment_first2, container, false);
 
@@ -90,9 +80,12 @@ public class First2Fragment extends Fragment {
                     comandes = response.body();
                     Log.d("comanda:","" + comandes.getComandes().get(0).getId());
 
+                    // Invierte el orden de la lista de comandas
+                    Collections.reverse(comandes.getComandes());
 
 
-                    MiAdaptador adaptador = new MiAdaptador(comandes);
+
+                    adaptador = new MiAdaptador(comandes);
                     recyclerView.setAdapter(adaptador);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity())); // Puedes usar otro LayoutManager según tus necesidades
 
@@ -142,8 +135,11 @@ public class First2Fragment extends Fragment {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             // Asigna los datos a las vistas en el ViewHolder
             Comandes.Comanda item = data.getComandes().get(position);
+
+
+
             //holder.textView.setText(item); // Asignar el dato a la vista de texto
-            String nom_comanda = "Comanda " + (item.getId());
+            String nom_comanda = "Comanda " + (position+1);
             holder.layout_productes.removeAllViews();
             float total = 0;
             for (int i=0;i<item.getProductes().size();i++) {
@@ -168,31 +164,22 @@ public class First2Fragment extends Fragment {
             }
 
             String estat = item.getEstat();
+            String dataComanda = convertirFormatoFechaHora(item.getDataComanda());
 
 
             holder.nom_comanda.setText(nom_comanda);
             holder.total.setText("TOTAL: " + total + " €");
             holder.estat.setText("Estat: " + estat);
-
-            mSocket.on("canviEstat", new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    String data = args[0].toString();
-                    Log.d("msg:",data);
-
-                    if (data.substring(8).equals(""+item.getId())) {
-                        holder.estat.setText(data);
-                    }
-
-                }
-
-            });
+            holder.dataComanda.setText("Data Comanda: " + dataComanda);
 
             holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    mostrarDatePickerFragment(view,item);
+
+
+                    showConfirmationFragment(view, item);
+
 
 
                 }
@@ -202,10 +189,38 @@ public class First2Fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
+
+
                     showEditarComandaFragment(view, item);
+
+
+
 
                 }
             });
+
+            if (!estat.equals("oberta")) {
+                Log.d("comanda_id:",""+item.getId());
+                // Comanda pagada, deshabilita los botones y cambia la apariencia
+                holder.boto_pagar.setEnabled(false);
+                holder.boto_editar.setEnabled(false);
+                holder.boto_eliminar.setEnabled(false);
+                // Cambia la apariencia de los botones, por ejemplo, el color de fondo
+                holder.boto_pagar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
+                holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
+                holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
+            }
+
+            else {
+                holder.boto_pagar.setEnabled(true);
+                holder.boto_editar.setEnabled(true);
+                holder.boto_eliminar.setEnabled(true);
+                holder.boto_pagar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
+                holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
+                holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
+            }
+
+
 
         }
 
@@ -222,6 +237,7 @@ public class First2Fragment extends Fragment {
             LinearLayout layout_productes;
             TextView total;
             TextView estat;
+            TextView dataComanda;
             Button boto_editar;
             Button boto_eliminar;
             Button boto_pagar;
@@ -233,6 +249,7 @@ public class First2Fragment extends Fragment {
                 layout_productes = itemView.findViewById(R.id.layout_productes);
                 total = itemView.findViewById(R.id.total);
                 estat = itemView.findViewById(R.id.estat);
+                dataComanda = itemView.findViewById(R.id.dataComanda);
                 boto_editar = itemView.findViewById(R.id.boto_editar);
                 boto_eliminar = itemView.findViewById(R.id.boto_eliminar);
                 boto_pagar = itemView.findViewById(R.id.botor_pagar);
@@ -240,64 +257,26 @@ public class First2Fragment extends Fragment {
         }
     }
 
-    public String formatFechaHora(int year, int month, int day, int hour, int minute){
-        String formattedDate = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
-        return formattedDate;
+    private String convertirFormatoFechaHora(String fechaHoraISO8601) {
+        try {
+            SimpleDateFormat formatoISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+            SimpleDateFormat formatoLegible = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            Date fechaHora = formatoISO8601.parse(fechaHoraISO8601);
+            return formatoLegible.format(fechaHora);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return fechaHoraISO8601; // En caso de error, se muestra la cadena original
+        }
     }
 
-    public void showConfirmationFragment(Comandes.Comanda comanda,String entrega, int selectedYear, int selectedMonth, int selectedDay, int selectedHour, int selectedMinute) {
 
+    public void showConfirmationFragment(View v, Comandes.Comanda comanda) {
         ConfirmationFragment newFragment = new ConfirmationFragment();
         Bundle args = new Bundle();
-        Log.d("entrega:",entrega);
         args.putSerializable("comanda", comanda);
-        args.putString("entrega",entrega);
-        args.putInt("selectedYear",selectedYear);
-        args.putInt("selectedMonth",selectedMonth);
-        args.putInt("selectedDay",selectedDay);
-        args.putInt("hour",selectedHour);
-        args.putInt("minute",selectedMinute);
         newFragment.setArguments(args);
-
         if (getActivity() != null) {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
-        }
-    }
-
-    public void mostrarDatePickerFragment(View view, Comandes.Comanda comanda){
-        DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.setDatePickerListener(new DatePickerFragment.DatePickerListener() {
-            @Override
-            public void onDateSelected(int year, int month, int day) {
-                //Almaceno la fecha seleccionada en variables locales
-                selectedYear = year;
-                selectedMonth = month;
-                selectedDay = day;
-                //Luego muestra el TimePickerFragment
-                mostrarTimePickerFragment(comanda, selectedYear,selectedMonth,selectedDay);
-            }
-        });
-        if(getActivity() != null){
-            datePickerFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
-        }
-    }
-
-    public void mostrarTimePickerFragment(Comandes.Comanda comanda, int selectedYear, int selectedMonth, int selectedDay){
-        TimePickerFragment timePickerFragment = new TimePickerFragment();
-
-        timePickerFragment.setTimePickerListener(new TimePickerFragment.TimePickerListener() {
-            @Override
-            public void onTimeSelected(int hour, int minute) {
-                //Almaceno la hora y los minutos seleccionados en variables locales
-                selectedHour = hour;
-                selectedMinute = minute;
-                String entrega = formatFechaHora(selectedYear, selectedMonth + 1,selectedDay,selectedHour,selectedMinute);
-                //Luego muestro el ConfirmationFragment
-                showConfirmationFragment(comanda,entrega,selectedYear,selectedMonth,selectedDay,selectedHour,selectedMinute);
-            }
-        });
-        if(getActivity() != null){
-            timePickerFragment.show(getActivity().getSupportFragmentManager(),getString(R.string.datepicker));
         }
     }
 
@@ -307,7 +286,12 @@ public class First2Fragment extends Fragment {
         args.putSerializable("comanda", comanda);
         newFragment.setArguments(args);
         if (getActivity() != null) {
-            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.editarcomandafragment));
         }
     }
+
+
+
+
+
 }

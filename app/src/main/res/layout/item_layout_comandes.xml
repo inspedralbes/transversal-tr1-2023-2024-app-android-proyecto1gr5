@@ -87,6 +87,13 @@
         android:layout_height="wrap_content"
         android:text="Estat:" />
 
+    <TextView
+        android:id="@+id/dataComanda"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Data Comanda:" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
