@@ -2,23 +2,16 @@ package com.example.proj1;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -147,9 +140,9 @@ public class QuantityFragment extends DialogFragment {
                 // Obtén la cantidad seleccionada, por ejemplo, desde un TextView o una variable.
 
 
-                ProductesEnviar.Producte producte_enviar = new ProductesEnviar.Producte(producte, unitats_seleccionades);
+                ProductesEnviar.Producte producte_enviar = new ProductesEnviar.Producte(producte, unitats_seleccionades, false);
 
-                String BASE_URL_updateComanda = "http://192.168.56.1:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
+                String BASE_URL_updateComanda = "http://192.168.0.18:3968/"; //Canviar la IP cada vegada que varii
 
                 Retrofit retrofit_updateComanda = new Retrofit.Builder()
                         .baseUrl(BASE_URL_updateComanda)
@@ -163,7 +156,7 @@ public class QuantityFragment extends DialogFragment {
                 Log.d("producte_id", "" + producte_enviar.getId());
 
                 // Realiza la llamada a la API
-                Call<Void> call = productesApi.updateComanda(producte_enviar);
+                Call<Void> call = productesApi.afegirProducteComanda(producte_enviar);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -182,6 +175,11 @@ public class QuantityFragment extends DialogFragment {
                         Log.d("msg", "error onFailure " + t.getMessage() + " " + t + " " + call);
                     }
                 });
+
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.remove(QuantityFragment.this);
+                transaction.addToBackStack(null); // Opcional, para agregar la transacción a la pila de retroceso
+                transaction.commit();
 
                 // Actualiza el ViewModel con la nueva cantidad y la posición
                 //sharedViewModel.selectProduct(posicio, unitats_seleccionades);

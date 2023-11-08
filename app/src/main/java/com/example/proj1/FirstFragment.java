@@ -1,6 +1,9 @@
 package com.example.proj1;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +15,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,13 +48,18 @@ public class FirstFragment extends Fragment {
         }
     }
 
-    private static final String BASE_URL_getProductes = "http://192.168.56.1:3968/getProductes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_getProductes = "http://192.168.0.18:3968/"; //Canviar la IP cada vegada que varii
 
 
     // Inicializa Retrofit
     Retrofit retrofit_getProductes = new Retrofit.Builder()
             .baseUrl(BASE_URL_getProductes)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(new OkHttpClient.Builder()
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .writeTimeout(30, TimeUnit.SECONDS)
+                    .build())
             .build();
 
 
@@ -80,7 +89,7 @@ public class FirstFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recyclerViewProductes);
 
         // Realiza la llamada a la API
-        Call<ProductesRebre> call = productesApi.getProductes();
+        Call<ProductesRebre> call = productesApi.getProductesAndroid();
         call.enqueue(new Callback<ProductesRebre>() {
             @Override
             public void onResponse(Call<ProductesRebre> call, Response<ProductesRebre> response) {
@@ -163,13 +172,9 @@ public class FirstFragment extends Fragment {
     public class MiAdaptador extends RecyclerView.Adapter<MiAdaptador.ViewHolder> {
         // Declaraciones de variables y constructor
         private ProductesRebre data; // Suponiendo que estás mostrando una lista de cadenas
-        private String categoria_referencia;
 
         public MiAdaptador(ProductesRebre data) {
             this.data = data;
-            if (data.getProductes().size() != 0) {
-                this.categoria_referencia = data.getProductes().get(0).getCategoria();
-            }
 
         }
 
@@ -187,20 +192,26 @@ public class FirstFragment extends Fragment {
                 ProductesRebre.Producte item = data.getProductes().get(position);
 
 
-                if (!this.categoria_referencia.equals(item.getCategoria()) || position == 0) {
-                    this.categoria_referencia = item.getCategoria();
+                if (position == 0) {
+                    holder.categoria.setText(item.getCategoria());
+                }
+                else if (!item.getCategoria().equals(data.getProductes().get(position-1).getCategoria())) {
                     holder.categoria.setText(item.getCategoria());
                 }
                 else {
                     holder.categoria.setText("");
                 }
 
+                String base64String = item.getUrlImatge();
+                byte[] decodedImage = Base64.decode(base64String, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedImage, 0, decodedImage.length);
+                holder.img_producte.setImageBitmap(decodedByte);
 
 
 
-                int img_producte = getResources().getIdentifier(item.getUrlImatge().substring(0, item.getUrlImatge().length() - 4), "drawable", getContext().getPackageName());
+                //int img_producte = getResources().getIdentifier(item.getUrlImatge().substring(0, item.getUrlImatge().length() - 4), "drawable", getContext().getPackageName());
 
-                holder.img_producte.setImageResource(img_producte);
+                //holder.img_producte.setImageResource(img_producte);
                 holder.nom_producte.setText(item.getNom());
                 holder.boto_afegir_comanda.setOnClickListener(new View.OnClickListener() {
                     @Override

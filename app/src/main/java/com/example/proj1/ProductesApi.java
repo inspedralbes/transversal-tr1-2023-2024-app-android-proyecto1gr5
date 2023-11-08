@@ -7,9 +7,9 @@ import retrofit2.http.POST;
 
 public interface ProductesApi {
 
-    @GET("/getProductes")
-    Call<ProductesRebre> getProductes();
+    @GET("/getProductesAndroid")
+    Call<ProductesRebre> getProductesAndroid();
 
     @POST("/afegirProducteComanda")
-    Call<Void> updateComanda(@Body ProductesEnviar.Producte producte);
+    Call<Void> afegirProducteComanda(@Body ProductesEnviar.Producte producte);
 }

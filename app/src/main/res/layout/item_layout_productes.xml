@@ -18,6 +18,7 @@
         android:id="@+id/img_producte"
         android:layout_width="wrap_content"
         android:layout_height="113dp"
+        android:layout_gravity="center_horizontal"
         app:srcCompat="@drawable/pizza_margarita" />
 
     <TextView

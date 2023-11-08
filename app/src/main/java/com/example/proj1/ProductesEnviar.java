@@ -31,7 +31,7 @@ public class ProductesEnviar  {
         @SerializedName("editarQuantitat")
         private boolean editarQuantitat;
 
-        public Producte (ProductesRebre.Producte producte, int quantitat) {
+        public Producte (ProductesRebre.Producte producte, int quantitat, boolean editarQuantitat) {
             this.id = producte.getId();
             this.categoria = producte.getCategoria();
             this.nom = producte.getNom();
@@ -39,7 +39,7 @@ public class ProductesEnviar  {
             this.preu = producte.getPreu();
             this.url_imatge = producte.getUrlImatge();
             this.quantitat = quantitat;
-            this.editarQuantitat = true;
+            this.editarQuantitat = editarQuantitat;
         }
 
         public void setQuantitat (int quantitat) {
