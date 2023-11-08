@@ -10,6 +10,6 @@ public interface ProductesApi {
     @GET("/getProductes")
     Call<ProductesRebre> getProductes();
 
-    @POST("/updateComanda")
+    @POST("/afegirProducteComanda")
     Call<Void> updateComanda(@Body ProductesEnviar.Producte producte);
 }
