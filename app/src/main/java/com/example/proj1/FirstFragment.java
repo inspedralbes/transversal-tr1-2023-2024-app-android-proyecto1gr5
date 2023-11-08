@@ -48,7 +48,7 @@ public class FirstFragment extends Fragment {
         }
     }
 
-    private static final String BASE_URL_getProductes = "http://192.168.0.18:3968/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_getProductes = "http://takeawayg5.dam.inspedralbes.cat:3968/"; //Canviar la IP cada vegada que varii
 
 
     // Inicializa Retrofit

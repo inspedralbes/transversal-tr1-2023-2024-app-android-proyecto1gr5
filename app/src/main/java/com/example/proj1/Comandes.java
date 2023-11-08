@@ -25,12 +25,16 @@ public class Comandes {
 
         @SerializedName("estat")
         private String estat;
-
-        @SerializedName("productes")
-        private List<ProductesEnviar.Producte> productes;
+        @SerializedName("entrega")
+        public void setEntrega(String entrega) { //Se utiliza para configurar la hora y los minutos cuando el usuario selecciona el DatePicker
+            this.entrega = entrega;
+        }
 
         @SerializedName("datacomanda")
         private String dataComanda;
+
+        @SerializedName("productes")
+        private List<ProductesEnviar.Producte> productes;
 
         public int getId() { return id; }
 

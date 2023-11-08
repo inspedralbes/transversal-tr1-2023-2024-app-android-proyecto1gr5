@@ -5,20 +5,15 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class SharedViewModel extends ViewModel {
-    private final MutableLiveData<Integer> selectedProductQuantity = new MutableLiveData<>();
-    private final MutableLiveData<Integer> selectedProductPosition = new MutableLiveData<>();
+    private MutableLiveData<Boolean> confirmationResult = new MutableLiveData<>();
 
-    public void selectProduct(int position, int quantity) {
-        selectedProductPosition.setValue(position);
-        selectedProductQuantity.setValue(quantity);
+    public void setConfirmationResult(boolean result) {
+        confirmationResult.setValue(result);
     }
 
-    public LiveData<Integer> getSelectedProductQuantity() {
-        return selectedProductQuantity;
-    }
-
-    public LiveData<Integer> getSelectedProductPosition() {
-        return selectedProductPosition;
+    public LiveData<Boolean> getConfirmationResult() {
+        return confirmationResult;
     }
 }
+
 

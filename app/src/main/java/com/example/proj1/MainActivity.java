@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     DatosEnviar datosEnviar = new DatosEnviar(username, password);
 
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.0.18:3968/")
+                            .baseUrl("http://takeawayg5.dam.inspedralbes.cat:3968/")
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
 

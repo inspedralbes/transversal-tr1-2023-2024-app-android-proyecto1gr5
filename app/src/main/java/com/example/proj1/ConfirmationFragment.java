@@ -1,15 +1,23 @@
 package com.example.proj1;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import android.util.Log;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +31,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * create an instance of this fragment.
  */
 public class ConfirmationFragment extends DialogFragment {
+
+    private SharedViewModel sharedViewModel;
+
+
+    //private ConfirmationListener listener;
+
+    //private ConfirmationListener confirmationListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +70,17 @@ public class ConfirmationFragment extends DialogFragment {
         return fragment;
     }
 
+    /*@Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            // Configura el listener cuando se adjunta el Fragment a la Activity
+            listener = (ConfirmationListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " debe implementar ConfirmationListener");
+        }
+    }*/
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +88,9 @@ public class ConfirmationFragment extends DialogFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
 
         mostrarDialogoDeConfirmacion();
     }
@@ -76,10 +105,15 @@ public class ConfirmationFragment extends DialogFragment {
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+
                 // Aquí colocas el código que deseas ejecutar si el usuario confirma
                 // por ejemplo, eliminar un elemento o realizar una acción.
-                // Reemplaza este comentario con tu código.
-                String BASE_URL = "http://192.168.0.18:3968/"; //Canviar la IP cada vegada que varii
+                Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
+                String entrega = (String) getArguments().getString("entrega");
+                comanda.setEntrega(entrega);
+                // Realiza la solicitud POST al servidor
+                String BASE_URL = "http://takeawayg5.dam.inspedralbes.cat:3968/"; // Cambiar la IP según sea necesario
 
                 // Inicializa Retrofit
                 Retrofit retrofit = new Retrofit.Builder()
@@ -89,30 +123,39 @@ public class ConfirmationFragment extends DialogFragment {
 
                 // Crea una instancia de la interfaz TriviaApi
                 ComandesApi comandesApi = retrofit.create(ComandesApi.class);
-
-                Comandes.Comanda comanda = (Comandes.Comanda) getArguments().getSerializable("comanda");
-                Log.d("id_comanda","" + comanda.getId());
+                Log.d("Mensaje:", "Intentando realizar el pago");
+                Log.d("Mensaje:", "Datos de la comanda que se enviarán:");
+                Log.d("Mensaje:", "ID: " + comanda.getId());
+                Log.d("Mensaje:", "ID Usuario: " + comanda.getId_usuari());
+                Log.d("Mensaje:", "Entrega: " + comanda.getEntrega());
+                Log.d("Mensaje:", "Estat: " + comanda.getEstat());
 
                 // Realiza la llamada a la API
                 Call<Void> call = comandesApi.pagar(comanda);
                 call.enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        Log.d("Prueba","Estoy entrando al onResponse");
                         if (response.isSuccessful()) {
+                            Log.d("Mensaje:", "Pago realizado");
 
-                            Log.d("Missatge:","Post realitzat");
-
+                            // Aquí puedes realizar acciones adicionales si el pago es exitoso
                         } else {
-                            Log.d("msg", "Error al fer el call" + response.code()+ " " + response);
+                            Log.d("msg", "Error al hacer la llamada: " + response.code() + " " + response);
+
+                            // Aquí puedes manejar errores de la solicitud
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
-                        Log.d("msg", "error onFailure "+t.getMessage()+" "+t+" "+ call);
+                        Log.d("msg", "Error onFailure " + t.getMessage() + " " + t + " " + call);
+
+                        // Aquí puedes manejar errores de conexión
                     }
                 });
+
+                // Cuando el usuario confirma
+                sharedViewModel.setConfirmationResult(true);
 
             }
         });
@@ -124,6 +167,8 @@ public class ConfirmationFragment extends DialogFragment {
                 // Código a ejecutar si el usuario cancela
                 // Por ejemplo, puedes no hacer nada o mostrar un mensaje.
                 // Reemplaza este comentario con tu código.
+                // Llama al método del listener indicando que el usuario hizo clic en "No"
+                //listener.onConfirmationResult(false);
             }
         });
 

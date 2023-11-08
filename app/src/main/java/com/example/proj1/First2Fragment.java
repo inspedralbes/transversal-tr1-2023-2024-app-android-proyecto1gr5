@@ -1,5 +1,6 @@
 package com.example.proj1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,23 +30,26 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class First2Fragment extends Fragment  {
 
-    Socket mSocket;
+    SharedViewModel sharedViewModel;
+
 
     private int selectedHour; //Variable para almacenar la hora seleccionada
     private int selectedMinute; //Variable para almacenar los minutos seleccionados
     private int selectedYear; //Variable para almacenar el año seleccionado
     private int selectedMonth; //Variable para almacenar el mes seleccionado
     private int selectedDay; //Variable para almacenar el día seleccionado
+    Socket mSocket;
 
-    private MiAdaptador adaptador;
-
-
-    private static final String BASE_URL = "http://192.168.0.18:3968/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://takeawayg5.dam.inspedralbes.cat:3968/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -58,6 +65,24 @@ public class First2Fragment extends Fragment  {
     private View rootView;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel.getConfirmationResult().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean result) {
+                // Aquí maneja el resultado de confirmación
+                if (result) {
+                    // El usuario hizo clic en "Sí", realiza la acción para recargar la Activity
+                    Intent intent = getActivity().getIntent();
+                    getActivity().finish(); // Cierra la Activity actual
+                    startActivity(intent); // Vuelve a iniciar la Activity
+                }
+            }
+        });
+    }
+
+    @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
@@ -68,7 +93,7 @@ public class First2Fragment extends Fragment  {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.0.18:3968");
+            mSocket = IO.socket("http://takeawayg5.dam.inspedralbes.cat:3968");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -100,9 +125,7 @@ public class First2Fragment extends Fragment  {
                     // Invierte el orden de la lista de comandas
                     Collections.reverse(comandes.getComandes());
 
-
-
-                    adaptador = new MiAdaptador(comandes);
+                    MiAdaptador adaptador = new MiAdaptador(comandes);
                     recyclerView.setAdapter(adaptador);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity())); // Puedes usar otro LayoutManager según tus necesidades
 
@@ -152,9 +175,6 @@ public class First2Fragment extends Fragment  {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             // Asigna los datos a las vistas en el ViewHolder
             Comandes.Comanda item = data.getComandes().get(position);
-
-
-
             //holder.textView.setText(item); // Asignar el dato a la vista de texto
             String nom_comanda = "Comanda " + (position+1);
             holder.layout_productes.removeAllViews();
@@ -181,13 +201,12 @@ public class First2Fragment extends Fragment  {
             }
 
             String estat = item.getEstat();
-            //String dataComanda = convertirFormatoFechaHora(item.getDataComanda());
-
+            String dataComanda = convertirFormatoFechaHora(item.getDataComanda());
 
             holder.nom_comanda.setText(nom_comanda);
             holder.total.setText("TOTAL: " + total + " €");
             holder.estat.setText("Estat: " + estat);
-            //holder.dataComanda.setText("Data Comanda: " + dataComanda);
+            holder.dataComanda.setText("Data Comanda: " + dataComanda);
 
             mSocket.on("canviEstat", new Emitter.Listener() {
                 @Override
@@ -195,27 +214,25 @@ public class First2Fragment extends Fragment  {
                     String data = args[0].toString();
                     Log.d("msg:",data);
 
-                    //TextView missatge = new TextView(MainActivity2.this);
                     if (data.substring(8).equals(""+item.getId())) {
-                        holder.estat.setText(data);
-                    } else if (data.substring(9).equals(""+item.getId())) {
-                        holder.estat.setText(data);
+                        if (data.substring(0,8).equals("aprovada")) {
+                            holder.estat.setText("aprovada");
+                        }
+                        else {
+                            holder.estat.setText("rebutjada");
+                        }
+
                     }
 
                 }
 
-
             });
-
 
             holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-
-
                     mostrarDatePickerFragment(view,item);
-
 
 
                 }
@@ -225,12 +242,7 @@ public class First2Fragment extends Fragment  {
                 @Override
                 public void onClick(View view) {
 
-
-
                     showEditarComandaFragment(view, item);
-
-
-
 
                 }
             });
@@ -255,8 +267,6 @@ public class First2Fragment extends Fragment  {
                 holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
                 holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
             }
-
-
 
         }
 
@@ -293,12 +303,7 @@ public class First2Fragment extends Fragment  {
         }
     }
 
-    public String formatFechaHora(int year, int month, int day, int hour, int minute){
-        String formattedDate = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
-        return formattedDate;
-    }
-
-    /*private String convertirFormatoFechaHora(String fechaHoraISO8601) {
+    private String convertirFormatoFechaHora(String fechaHoraISO8601) {
         try {
             SimpleDateFormat formatoISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
             SimpleDateFormat formatoLegible = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -308,12 +313,17 @@ public class First2Fragment extends Fragment  {
             e.printStackTrace();
             return fechaHoraISO8601; // En caso de error, se muestra la cadena original
         }
-    }*/
+    }
 
+    public String formatFechaHora(int year, int month, int day, int hour, int minute){
+        String formattedDate = String.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute);
+        return formattedDate;
+    }
 
     public void showConfirmationFragment(Comandes.Comanda comanda,String entrega, int selectedYear, int selectedMonth, int selectedDay, int selectedHour, int selectedMinute) {
 
         ConfirmationFragment newFragment = new ConfirmationFragment();
+        //newFragment.setConfirmationListener(this);
         Bundle args = new Bundle();
         Log.d("entrega:",entrega);
         args.putSerializable("comanda", comanda);
@@ -360,6 +370,7 @@ public class First2Fragment extends Fragment  {
                 String entrega = formatFechaHora(selectedYear, selectedMonth + 1,selectedDay,selectedHour,selectedMinute);
                 //Luego muestro el ConfirmationFragment
                 showConfirmationFragment(comanda,entrega,selectedYear,selectedMonth,selectedDay,selectedHour,selectedMinute);
+
             }
         });
         if(getActivity() != null){
@@ -373,7 +384,7 @@ public class First2Fragment extends Fragment  {
         args.putSerializable("comanda", comanda);
         newFragment.setArguments(args);
         if (getActivity() != null) {
-            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.editarcomandafragment));
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
 
