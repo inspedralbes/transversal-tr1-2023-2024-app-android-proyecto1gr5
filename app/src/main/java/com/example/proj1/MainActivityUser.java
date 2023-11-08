@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivityUser extends AppCompatActivity {
 
-    private static final String BASE_URL_DADES_USU = "http://takeawayg5.dam.inspedralbes.cat:3968"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL_DADES_USU = "http://192.168.56.1:3968"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()

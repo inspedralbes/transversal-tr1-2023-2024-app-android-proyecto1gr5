@@ -42,7 +42,7 @@ public class First2Fragment extends Fragment  {
     private MiAdaptador adaptador;
 
 
-    private static final String BASE_URL = "http://takeawayg5.dam.inspedralbes.cat:3968/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.56.1:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -68,7 +68,7 @@ public class First2Fragment extends Fragment  {
     {
 
         try {
-            mSocket = IO.socket("http://takeawayg5.dam.inspedralbes.cat:3968");
+            mSocket = IO.socket("http://192.168.56.1:3968");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
