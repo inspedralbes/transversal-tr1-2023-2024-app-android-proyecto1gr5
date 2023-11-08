@@ -79,7 +79,7 @@ public class ConfirmationFragment extends DialogFragment {
                 // Aquí colocas el código que deseas ejecutar si el usuario confirma
                 // por ejemplo, eliminar un elemento o realizar una acción.
                 // Reemplaza este comentario con tu código.
-                String BASE_URL = "http://192.168.56.1:3968/pagar/"; //Canviar la IP cada vegada que varii
+                String BASE_URL = "http://takeawayg5.dam.inspedralbes.cat:3968/pagar/"; //Canviar la IP cada vegada que varii
 
                 // Inicializa Retrofit
                 Retrofit retrofit = new Retrofit.Builder()

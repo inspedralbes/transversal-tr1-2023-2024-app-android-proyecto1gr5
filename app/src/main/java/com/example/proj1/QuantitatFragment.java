@@ -125,7 +125,7 @@ public class QuantitatFragment extends DialogFragment {
 
                     ProductesEnviar.Producte producte_enviar = new ProductesEnviar.Producte(producte, unitats_seleccionades);
 
-                    String BASE_URL_updateComanda = "http://192.168.56.1:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
+                    String BASE_URL_updateComanda = "http://takeawayg5.dam.inspedralbes.cat:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
 
                     Retrofit retrofit_updateComanda = new Retrofit.Builder()
                             .baseUrl(BASE_URL_updateComanda)
