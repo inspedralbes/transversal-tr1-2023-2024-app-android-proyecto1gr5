@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class QuantityFragment extends DialogFragment {
 
-    private SharedViewModel sharedViewModel;
+    //private SharedViewModel sharedViewModel;
 
     private View rootView;
 
@@ -82,7 +82,7 @@ public class QuantityFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        //sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         // Resto del código de onCreate
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -149,7 +149,7 @@ public class QuantityFragment extends DialogFragment {
 
                 ProductesEnviar.Producte producte_enviar = new ProductesEnviar.Producte(producte, unitats_seleccionades);
 
-                String BASE_URL_updateComanda = "http://192.168.0.18:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
+                String BASE_URL_updateComanda = "http://192.168.56.1:3968/afegirProducteComanda/"; //Canviar la IP cada vegada que varii
 
                 Retrofit retrofit_updateComanda = new Retrofit.Builder()
                         .baseUrl(BASE_URL_updateComanda)
@@ -184,7 +184,7 @@ public class QuantityFragment extends DialogFragment {
                 });
 
                 // Actualiza el ViewModel con la nueva cantidad y la posición
-                sharedViewModel.selectProduct(posicio, unitats_seleccionades);
+                //sharedViewModel.selectProduct(posicio, unitats_seleccionades);
 
             }
 

@@ -28,7 +28,7 @@ import java.util.List;
 public class EditarComandaFragment extends DialogFragment  {
 
     private MiAdaptador adaptador;
-    private SharedViewModel sharedViewModel;
+    //private SharedViewModel sharedViewModel;
 
     private View rootView;
 
@@ -69,16 +69,16 @@ public class EditarComandaFragment extends DialogFragment  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        //sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         // Observa cambios en la cantidad del producto
-        sharedViewModel.getSelectedProductQuantity().observe(this, new Observer<Integer>() {
+        /*sharedViewModel.getSelectedProductQuantity().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer newQuantity) {
                 // Actualiza el TextView del RecyclerView cuando cambie la cantidad
                 adaptador.updateProductQuantity(sharedViewModel.getSelectedProductPosition().getValue(), newQuantity);
             }
-        });
+        });*/
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);

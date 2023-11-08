@@ -38,7 +38,7 @@ public class First2Fragment extends Fragment  {
     private MiAdaptador adaptador;
 
 
-    private static final String BASE_URL = "http://192.168.0.18:3968/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.56.1:3968/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -135,6 +135,9 @@ public class First2Fragment extends Fragment  {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             // Asigna los datos a las vistas en el ViewHolder
             Comandes.Comanda item = data.getComandes().get(position);
+
+
+
             //holder.textView.setText(item); // Asignar el dato a la vista de texto
             String nom_comanda = "Comanda " + (position+1);
             holder.layout_productes.removeAllViews();
@@ -196,7 +199,8 @@ public class First2Fragment extends Fragment  {
                 }
             });
 
-            if (!item.getEstat().equals("oberta")) {
+            if (!estat.equals("oberta")) {
+                Log.d("comanda_id:",""+item.getId());
                 // Comanda pagada, deshabilita los botones y cambia la apariencia
                 holder.boto_pagar.setEnabled(false);
                 holder.boto_editar.setEnabled(false);
@@ -206,6 +210,17 @@ public class First2Fragment extends Fragment  {
                 holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
                 holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
             }
+
+            else {
+                holder.boto_pagar.setEnabled(true);
+                holder.boto_editar.setEnabled(true);
+                holder.boto_eliminar.setEnabled(true);
+                holder.boto_pagar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
+                holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
+                holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
+            }
+
+
 
         }
 
