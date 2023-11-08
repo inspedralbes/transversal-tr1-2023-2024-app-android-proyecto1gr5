@@ -2,6 +2,7 @@ package com.example.proj1;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.widget.DatePicker;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -18,12 +21,16 @@ import java.util.Calendar;
  * create an instance of this fragment.
  */
 public class DatePickerFragment extends DialogFragment
-        implements DatePickerDialog.OnDateSetListener {
+        implements TimePickerDialog.OnTimeSetListener {
+
+    private int selectedHour = -1;
+    private int selectedMinute = -1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -61,15 +68,19 @@ public class DatePickerFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker.
         final Calendar c = Calendar.getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
+        //int year = c.get(Calendar.YEAR);
+        //int month = c.get(Calendar.MONTH);
+        //int day = c.get(Calendar.DAY_OF_MONTH);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
         // Create a new instance of DatePickerDialog and return it.
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new TimePickerDialog(getActivity(), this, hour, minute, true);
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        //Guardo la hora seleccionada en las variables
+        selectedHour = hourOfDay;
+        selectedMinute = minute;
     }
 }

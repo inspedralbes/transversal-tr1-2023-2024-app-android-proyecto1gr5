@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     DatosEnviar datosEnviar = new DatosEnviar(username, password);
 
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.56.1:3968/")
+                            .baseUrl("http://192.168.205.252:3001/")
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
 
@@ -84,6 +84,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

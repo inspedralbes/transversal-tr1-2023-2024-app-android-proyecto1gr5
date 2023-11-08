@@ -24,18 +24,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import androidx.fragment.app.DialogFragment;
-
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class First2Fragment extends Fragment {
 
     Socket mSocket;
 
-    private static final String BASE_URL = "http://192.168.56.1:3968/getComandes/"; //Canviar la IP cada vegada que varii
+    private static final String BASE_URL = "http://192.168.205.252:3001/getComandes/"; //Canviar la IP cada vegada que varii
 
     // Inicializa Retrofit
     Retrofit retrofit = new Retrofit.Builder()
@@ -61,7 +57,7 @@ public class First2Fragment extends Fragment {
     {
 
         try {
-            mSocket = IO.socket("http://192.168.56.1:3968");
+            mSocket = IO.socket("http://192.168.205.252:3001");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -198,17 +194,14 @@ public class First2Fragment extends Fragment {
                 });*/
                 }
 
-
             });
 
             holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-
-
                     showConfirmationFragment(view, item);
-
+                    mostrarHoraPickerFragment(view);
 
 
                 }
@@ -218,12 +211,7 @@ public class First2Fragment extends Fragment {
                 @Override
                 public void onClick(View view) {
 
-
-
                     showEditarComandaFragment(view, item);
-
-
-
 
                 }
             });
@@ -271,6 +259,14 @@ public class First2Fragment extends Fragment {
         }
     }
 
+    public void mostrarHoraPickerFragment(View v) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+
+        if (getActivity() != null) {
+            newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.datepicker));
+        }
+    }
+
     public void showEditarComandaFragment(View v, Comandes.Comanda comanda) {
         EditarComandaFragment newFragment = new EditarComandaFragment();
         Bundle args = new Bundle();
@@ -280,9 +276,5 @@ public class First2Fragment extends Fragment {
             newFragment.show(getActivity().getSupportFragmentManager(), getString(R.string.confirmationfragment));
         }
     }
-
-
-
-
 
 }
