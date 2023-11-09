@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Proj1</string>
+    <string name="app_name">LA BELLA TRATTORIA</string>
     <string name="title_activity_menu_productos">MenuProductos</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label"></string>
@@ -57,7 +57,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="item1">Dades</string>
-    <string name="item2">Productres</string>
+    <string name="item2">Productes</string>
     <string name="item3">Comandes</string>
     <string name="item4">Salir</string>
     <string name="item5">Cerrar Sesion</string>
