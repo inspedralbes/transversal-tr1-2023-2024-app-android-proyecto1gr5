@@ -5,14 +5,32 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tit_dad_usu"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Dades Usuari"
-        android:textAlignment="center"
-        android:textSize="48sp" />
+        android:theme="@style/Theme.Proj1.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.Proj1.PopupOverlay">
+
+            <TextView
+                android:layout_width="375dp"
+                android:layout_height="wrap_content"
+                android:text="Dades Usuaris"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp">
+
+            </TextView>
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/layout_productes"
@@ -28,7 +46,7 @@
             <TextView
                 android:id="@+id/txtNomUsu"
                 android:layout_width="100px"
-                android:layout_height="40px"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Nom: " />
 
