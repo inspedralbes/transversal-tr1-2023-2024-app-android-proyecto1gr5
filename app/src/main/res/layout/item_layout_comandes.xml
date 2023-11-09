@@ -94,26 +94,6 @@
         android:layout_weight="1"
         android:text="Data Comanda:" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/boto_editar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Editar" />
-
-        <Button
-            android:id="@+id/boto_eliminar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Eliminar" />
-    </LinearLayout>
-
     <Button
         android:id="@+id/botor_pagar"
         android:layout_width="match_parent"

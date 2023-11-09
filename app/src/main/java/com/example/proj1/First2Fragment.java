@@ -250,34 +250,18 @@ public class First2Fragment extends Fragment  {
                 }
             });
 
-            holder.boto_editar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    showEditarComandaFragment(view, item);
-
-                }
-            });
 
             if (!estat.equals("oberta")) {
                 Log.d("comanda_id:",""+item.getId());
                 // Comanda pagada, deshabilita los botones y cambia la apariencia
                 holder.boto_pagar.setEnabled(false);
-                holder.boto_editar.setEnabled(false);
-                holder.boto_eliminar.setEnabled(false);
                 // Cambia la apariencia de los botones, por ejemplo, el color de fondo
                 holder.boto_pagar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
-                holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
-                holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.colorBotonDeshabilitado));
             }
 
             else {
                 holder.boto_pagar.setEnabled(true);
-                holder.boto_editar.setEnabled(true);
-                holder.boto_eliminar.setEnabled(true);
                 holder.boto_pagar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
-                holder.boto_editar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
-                holder.boto_eliminar.setBackgroundColor(ContextCompat.getColor(rootView.getContext(), R.color.purple_500));
             }
 
         }
@@ -296,8 +280,6 @@ public class First2Fragment extends Fragment  {
             TextView total;
             TextView estat;
             TextView dataComanda;
-            Button boto_editar;
-            Button boto_eliminar;
             Button boto_pagar;
 
             public ViewHolder(View itemView) {
@@ -308,8 +290,6 @@ public class First2Fragment extends Fragment  {
                 total = itemView.findViewById(R.id.total);
                 estat = itemView.findViewById(R.id.estat);
                 dataComanda = itemView.findViewById(R.id.dataComanda);
-                boto_editar = itemView.findViewById(R.id.boto_editar);
-                boto_eliminar = itemView.findViewById(R.id.boto_eliminar);
                 boto_pagar = itemView.findViewById(R.id.botor_pagar);
             }
         }
