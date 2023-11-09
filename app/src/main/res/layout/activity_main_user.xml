@@ -10,8 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="#673AB7"
         android:text="Dades Usuari"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="48sp" />
 
     <LinearLayout
@@ -28,7 +31,7 @@
             <TextView
                 android:id="@+id/txtNomUsu"
                 android:layout_width="100px"
-                android:layout_height="40px"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Nom: " />
 

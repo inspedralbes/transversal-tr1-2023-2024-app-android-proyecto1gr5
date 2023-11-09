@@ -11,9 +11,8 @@
         android:layout_width="410dp"
         android:layout_height="599dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="11dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        tools:layout_editor_absoluteY="53dp" />
 
     <Button
         android:id="@+id/button_first"
@@ -24,16 +23,6 @@
         android:text="@string/next"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewComandes" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="23dp"
-        android:text="@string/COMANDES"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/botonAtras2"

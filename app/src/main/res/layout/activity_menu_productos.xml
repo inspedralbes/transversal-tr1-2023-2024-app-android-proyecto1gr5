@@ -16,7 +16,19 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.Proj1.PopupOverlay" />
+            app:popupTheme="@style/Theme.Proj1.PopupOverlay">
+
+            <TextView
+                android:id="@+id/Titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Productes"
+                android:textAlignment="center"
+                android:textSize="48sp"
+                android:textColor="#FFFFFF"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
             android:layout_width="match_parent"
