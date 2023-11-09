@@ -208,19 +208,31 @@ public class First2Fragment extends Fragment  {
             holder.estat.setText("Estat: " + estat);
             holder.dataComanda.setText("Data Comanda: " + dataComanda);
 
-            mSocket.on("canviEstat", new Emitter.Listener() {
+            mSocket.on("comandaAprovada", new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
                     String data = args[0].toString();
                     Log.d("msg:",data);
 
-                    if (data.substring(8).equals(""+item.getId())) {
-                        if (data.substring(0,8).equals("aprovada")) {
-                            holder.estat.setText("aprovada");
-                        }
-                        else {
-                            holder.estat.setText("rebutjada");
-                        }
+                    if (data.equals(""+item.getId())) {
+                        holder.estat.setText("Estat: aprovada");
+
+
+                    }
+
+                }
+
+            });
+
+            mSocket.on("comandaRebutjada", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    String data = args[0].toString();
+                    Log.d("msg:",data);
+
+                    if (data.equals(""+item.getId())) {
+                        holder.estat.setText("Estat: rebutjada");
+
 
                     }
 

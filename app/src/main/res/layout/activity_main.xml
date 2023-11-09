@@ -22,13 +22,12 @@
 
     <TextView
         android:id="@+id/user"
-        android:layout_width="150dp"
+        android:layout_width="88dp"
         android:layout_height="45dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="232dp"
-        android:text="USUARIO:"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="240dp"
+        android:text="USUARI"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -38,12 +37,8 @@
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="34dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="242dp"
         android:text="CONTRASENYA "
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editTextTextPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user" />
 
@@ -57,6 +52,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/user"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -65,12 +61,8 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginTop="35dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="242dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
@@ -88,39 +80,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
-    <Button
-        android:id="@+id/botonRegistro"
-        android:layout_width="121dp"
-        android:layout_height="47dp"
-        android:text="Regístrate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
-
-    <TextView
-        android:id="@+id/textViewRegistro"
-        android:layout_width="171dp"
-        android:layout_height="29dp"
-        android:text="¿Aún no estás registrado?"
-        android:textColor="@color/fucsia"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.939"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89" />
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginStart="105dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="106dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
