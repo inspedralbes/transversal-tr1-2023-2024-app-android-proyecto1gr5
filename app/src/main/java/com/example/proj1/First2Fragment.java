@@ -39,7 +39,8 @@ import java.util.Locale;
 
 public class First2Fragment extends Fragment  {
 
-    SharedViewModel sharedViewModel;
+    SharedViewModel sharedViewModelConfirmation;
+    SharedViewModel sharedViewModelConfirmation;
 
 
     private int selectedHour; //Variable para almacenar la hora seleccionada
@@ -67,8 +68,8 @@ public class First2Fragment extends Fragment  {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.getConfirmationResult().observe(this, new Observer<Boolean>() {
+        sharedViewModelConfirmation = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModelConfirmation.getConfirmationResult().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean result) {
                 // Aquí maneja el resultado de confirmación
@@ -120,7 +121,7 @@ public class First2Fragment extends Fragment  {
                 if (response.isSuccessful()) {
 
                     comandes = response.body();
-                    Log.d("comanda:","" + comandes.getComandes().get(0).getId());
+                    //Log.d("comanda:","" + comandes.getComandes().get(0).getId());
 
                     // Invierte el orden de la lista de comandas
                     Collections.reverse(comandes.getComandes());
@@ -216,7 +217,7 @@ public class First2Fragment extends Fragment  {
 
                     if (data.equals(""+item.getId())) {
                         holder.estat.setText("Estat: aprovada");
-
+                        item.setEstat("aprovada");
 
                     }
 
@@ -232,7 +233,7 @@ public class First2Fragment extends Fragment  {
 
                     if (data.equals(""+item.getId())) {
                         holder.estat.setText("Estat: rebutjada");
-
+                        item.setEstat("rebutjada");
 
                     }
 

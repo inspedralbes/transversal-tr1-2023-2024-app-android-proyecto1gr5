@@ -8,7 +8,7 @@ import retrofit2.http.PUT;
 
 public interface ComandesApi {
 
-    @GET("/getComandes")
+    @GET("/getComandesAndroid")
     Call<Comandes> getComandes();
 
     @POST("/pagar")

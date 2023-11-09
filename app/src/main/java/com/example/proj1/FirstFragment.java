@@ -213,6 +213,7 @@ public class FirstFragment extends Fragment {
 
                 //holder.img_producte.setImageResource(img_producte);
                 holder.nom_producte.setText(item.getNom());
+                holder.preu_producte.setText("Preu: "+item.getPreu()+" €");
                 holder.boto_afegir_comanda.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -240,6 +241,7 @@ public class FirstFragment extends Fragment {
             TextView categoria;
             ImageView img_producte;
             TextView nom_producte;
+            TextView preu_producte;
             Button boto_afegir_comanda;
 
             public ViewHolder(View itemView) {
@@ -248,6 +250,7 @@ public class FirstFragment extends Fragment {
                 categoria = itemView.findViewById(R.id.categoria);
                 img_producte = itemView.findViewById(R.id.img_producte);
                 nom_producte = itemView.findViewById(R.id.nom_comanda);
+                preu_producte = itemView.findViewById(R.id.preu_producte);
                 boto_afegir_comanda = itemView.findViewById(R.id.boto_modificar_quantitat);
             }
         }

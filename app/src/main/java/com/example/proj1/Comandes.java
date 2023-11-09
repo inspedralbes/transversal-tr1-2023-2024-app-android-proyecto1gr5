@@ -48,5 +48,9 @@ public class Comandes {
 
         public String getDataComanda() { return dataComanda; }
 
+        public void setEstat (String estat) {
+            this.estat = estat;
+        }
+
     }
 }

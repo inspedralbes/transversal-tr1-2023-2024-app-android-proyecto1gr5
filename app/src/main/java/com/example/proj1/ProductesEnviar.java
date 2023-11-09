@@ -37,7 +37,7 @@ public class ProductesEnviar  {
             this.nom = producte.getNom();
             this.descripcio = producte.getDescripcio();
             this.preu = producte.getPreu();
-            this.url_imatge = producte.getUrlImatge();
+            this.url_imatge = null;
             this.quantitat = quantitat;
             this.editarQuantitat = editarQuantitat;
         }
