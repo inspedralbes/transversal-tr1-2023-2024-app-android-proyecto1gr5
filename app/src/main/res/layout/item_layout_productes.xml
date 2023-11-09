@@ -35,6 +35,12 @@
         android:layout_height="wrap_content"
         android:text="Preu: " />
 
+    <TextView
+        android:id="@+id/desc_producte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pizza de tomàquet, mozzarella i alfàbrega fresca" />
+
     <Button
         android:id="@+id/boto_modificar_quantitat"
         android:layout_width="370dp"
