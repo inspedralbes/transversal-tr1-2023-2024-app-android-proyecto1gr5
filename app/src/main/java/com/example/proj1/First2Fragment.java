@@ -40,7 +40,6 @@ import java.util.Locale;
 public class First2Fragment extends Fragment  {
 
     SharedViewModel sharedViewModelConfirmation;
-    SharedViewModel sharedViewModelConfirmation;
 
 
     private int selectedHour; //Variable para almacenar la hora seleccionada

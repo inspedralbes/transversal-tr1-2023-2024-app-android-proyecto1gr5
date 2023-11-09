@@ -85,14 +85,19 @@ public class FirstFragment extends Fragment {
         // Encuentra los elementos de la interfaz gráfica
         editTextSearch = rootView.findViewById(R.id.editTextSearch);
         buttonSearch = rootView.findViewById(R.id.buttonSearch);
-
         recyclerView = rootView.findViewById(R.id.recyclerViewProductes);
+
+        rootView.findViewById(R.id.gif).setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+
 
         // Realiza la llamada a la API
         Call<ProductesRebre> call = productesApi.getProductesAndroid();
         call.enqueue(new Callback<ProductesRebre>() {
             @Override
             public void onResponse(Call<ProductesRebre> call, Response<ProductesRebre> response) {
+                rootView.findViewById(R.id.gif).setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
 
                 Log.d("msg", "Estic entrant al onResponse");
                 if (response.isSuccessful()) {
