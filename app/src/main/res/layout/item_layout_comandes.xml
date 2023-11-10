@@ -94,6 +94,13 @@
         android:layout_weight="1"
         android:text="Data Comanda:" />
 
+    <TextView
+        android:id="@+id/dataEntrega"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Data Entrega:" />
+
     <Button
         android:id="@+id/botor_pagar"
         android:layout_width="match_parent"

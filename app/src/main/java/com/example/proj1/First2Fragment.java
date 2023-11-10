@@ -208,6 +208,11 @@ public class First2Fragment extends Fragment  {
                 holder.dataComanda.setText("Data Comanda: " + dataComanda);
             }
 
+            if (item.getEntrega() != null) {
+                String dataEntrega = convertirFormatoFechaHora(item.getEntrega());
+                holder.dataEntrega.setText("Data Entrega: " + dataEntrega);
+            }
+
 
             holder.nom_comanda.setText(nom_comanda);
             holder.total.setText("TOTAL: " + total + " €");
@@ -287,6 +292,7 @@ public class First2Fragment extends Fragment  {
             TextView total;
             TextView estat;
             TextView dataComanda;
+            TextView dataEntrega;
             Button boto_pagar;
 
             public ViewHolder(View itemView) {
@@ -297,6 +303,7 @@ public class First2Fragment extends Fragment  {
                 total = itemView.findViewById(R.id.total);
                 estat = itemView.findViewById(R.id.estat);
                 dataComanda = itemView.findViewById(R.id.dataComanda);
+                dataEntrega = itemView.findViewById(R.id.dataEntrega);
                 boto_pagar = itemView.findViewById(R.id.botor_pagar);
             }
         }
