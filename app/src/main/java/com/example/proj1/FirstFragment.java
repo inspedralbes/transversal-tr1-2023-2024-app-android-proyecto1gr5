@@ -96,7 +96,10 @@ public class FirstFragment extends Fragment {
         call.enqueue(new Callback<ProductesRebre>() {
             @Override
             public void onResponse(Call<ProductesRebre> call, Response<ProductesRebre> response) {
-                rootView.findViewById(R.id.gif).setVisibility(View.GONE);
+                if (rootView != null) {
+                    rootView.findViewById(R.id.gif).setVisibility(View.GONE);
+                }
+
                 recyclerView.setVisibility(View.VISIBLE);
 
                 Log.d("msg", "Estic entrant al onResponse");

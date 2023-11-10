@@ -201,12 +201,18 @@ public class First2Fragment extends Fragment  {
             }
 
             String estat = item.getEstat();
-            String dataComanda = convertirFormatoFechaHora(item.getDataComanda());
+
+            if (item.getDataComanda() != null) {
+
+                String dataComanda = convertirFormatoFechaHora(item.getDataComanda());
+                holder.dataComanda.setText("Data Comanda: " + dataComanda);
+            }
+
 
             holder.nom_comanda.setText(nom_comanda);
             holder.total.setText("TOTAL: " + total + " €");
             holder.estat.setText("Estat: " + estat);
-            holder.dataComanda.setText("Data Comanda: " + dataComanda);
+
 
             mSocket.on("comandaAprovada", new Emitter.Listener() {
                 @Override
@@ -243,6 +249,7 @@ public class First2Fragment extends Fragment  {
             holder.boto_pagar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
 
                     mostrarDatePickerFragment(view,item);
 
